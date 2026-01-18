@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cni-fixer
+  namespace: default
+spec:
+  hostNetwork: true
+  containers:
+  - name: fixer
+    image: alpine
+    command: ["/bin/sh", "-c"]
+    args:
+    - |
+      echo "Fixing CNI..."
+      ls -l /host/etc/cni/net.d/
+      if [ -f /host/etc/cni/net.d/05-cilium.conflist ]; then
+        echo "Removing broken Cilium CNI config..."
+        rm /host/etc/cni/net.d/05-cilium.conflist
+      fi
+      if [ -f /host/etc/cni/net.d/10-flannel.conflist.cilium_bak ]; then
+        echo "Restoring Flannel CNI config..."
+        mv /host/etc/cni/net.d/10-flannel.conflist.cilium_bak /host/etc/cni/net.d/10-flannel.conflist
+      fi
+      ls -l /host/etc/cni/net.d/
+      echo "Done."
+      sleep 300
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: host-etc
+      mountPath: /host/etc
+  volumes:
+  - name: host-etc
+    hostPath:
+      path: /etc
+  restartPolicy: Never
