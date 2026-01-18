@@ -49,7 +49,24 @@ Talos Linux is an immutable OS for Kubernetes.
    # Example for Core Node 1
    talosctl apply-config --insecure --nodes 10.10.0.11 --file talos/controlplane-talos-core-01.yaml
    ```
-4. Talos will install to the NVMe disk (`/dev/nvme0n1`) and reboot.
+### Dual-NIC Networking (2.5GbE Storage)
+For optimal performance, this repository configures a dedicated storage network:
+- **`eth0` (1Gb/Internal)**: Management, Control Plane, and External access (`10.10.0.0/24`).
+- **`eth1` (2.5Gb/USB)**: Longhorn Replication and Storage traffic (`10.10.1.0/24`).
+
+This is handled automatically by `talos/generate.sh`, but ensure your USB NICs are plugged in before applying the configuration.
+To run Longhorn and hardware media transcoding on Talos, specific machine configuration patches are required (already included in `talos/patches/`):
+
+1. **Longhorn Mounts**: The `/var/lib/longhorn` directory must be bind-mounted into the kubelet container.
+2. **System Extensions**:
+    - `iscsi-tools` & `util-linux-tools`: Mandatory for Longhorn storage.
+    - `intel-ucode` & `i915-ucode`: Mandatory for Intel GPU (QuickSync) hardware transcoding.
+3. **Kernel Parameters**: `i915.enable_guc=3` is enabled to support modern Intel QSV features (GuC/HuC).
+4. **Pod Security**: Longhorn and transcoding pods (like Jellyfin) may require `privileged` or specific device access permissions.
+
+For more details:
+- [Longhorn Talos Linux Support](https://longhorn.io/docs/1.9.0/advanced-resources/os-distro-specific/talos-linux-support/)
+- [Talos Intel GPU Support](https://www.talos.dev/latest/talos-guides/configuration/intel-gpu/)
 
 ---
 

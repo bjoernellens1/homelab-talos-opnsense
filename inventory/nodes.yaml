@@ -7,20 +7,26 @@ cluster:
   endpoint: https://10.10.0.10:6443  # VIP for control plane
   domain: cluster.local
 
+# Storage Network (2.5GbE)
+storage_network:
+  subnet: 10.10.1.0/24
+
 # Core nodes - always-on, host control plane and critical workloads
 # Hardware: 3x Fujitsu Esprimo (64GB RAM, i5-7400T)
+# Networking: eth0 (1G), eth1 (2.5G USB)
 core_nodes:
   - hostname: talos-core-01
     ip: 10.10.0.11
+    storage_ip: 10.10.1.11
     role: controlplane
     mac: 00:00:00:00:00:01
     specs:
       cpu: 4
-      memory: 65536  # MB (64GB)
-      disk: /dev/nvme0n1  # 250GB OS
+      memory: 65536
+      disk: /dev/nvme0n1
       data_disks:
-        - /dev/sda  # 1TB SATA SSD
-        - /dev/sdb  # 1TB SATA SSD
+        - /dev/sda
+        - /dev/sdb
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
@@ -30,6 +36,7 @@ core_nodes:
 
   - hostname: talos-core-02
     ip: 10.10.0.12
+    storage_ip: 10.10.1.12
     role: controlplane
     mac: 00:00:00:00:00:02
     specs:
@@ -48,6 +55,7 @@ core_nodes:
 
   - hostname: talos-core-03
     ip: 10.10.0.13
+    storage_ip: 10.10.1.13
     role: controlplane
     mac: 00:00:00:00:00:03
     specs:
@@ -66,15 +74,17 @@ core_nodes:
 
 # Edge nodes - on-demand via WoL, tainted to prevent regular scheduling
 # Hardware: 2x Minisforum N100 (8GB RAM)
+# Networking: eth0 (2.5G), eth1 (2.5G)
 edge_nodes:
   - hostname: talos-edge-01
     ip: 10.10.0.21
+    storage_ip: 10.10.1.21
     role: worker
     mac: 00:00:00:00:01:01
     specs:
       cpu: 4
-      memory: 8192  # MB (8GB)
-      disk: /dev/nvme0n1  # 250GB OS
+      memory: 8192
+      disk: /dev/nvme0n1
     labels:
       node-role.kubernetes.io/worker: ""
       topology.kubernetes.io/zone: edge
@@ -87,6 +97,7 @@ edge_nodes:
 
   - hostname: talos-edge-02
     ip: 10.10.0.22
+    storage_ip: 10.10.1.22
     role: worker
     mac: 00:00:00:00:01:02
     specs:

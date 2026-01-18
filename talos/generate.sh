@@ -1,86 +1,113 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env python3
+import yaml
+import os
+import subprocess
+import sys
 
-# Generate Talos configuration files for all nodes using patches
-# This script reads inventory/nodes.yaml and generates configs with appropriate patches
+# Paths
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+INVENTORY_PATH = os.path.join(REPO_ROOT, "inventory", "nodes.yaml")
+OUTPUT_DIR = os.path.join(REPO_ROOT, "talos")
+PATCHES_DIR = os.path.join(OUTPUT_DIR, "patches")
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-INVENTORY="$REPO_ROOT/inventory/nodes.yaml"
-PATCHES_DIR="$SCRIPT_DIR/patches"
-OUTPUT_DIR="$SCRIPT_DIR"
+# Load Inventory
+try:
+    with open(INVENTORY_PATH, 'r') as f:
+        inventory = yaml.safe_load(f)
+except Exception as e:
+    print(f"Error loading inventory: {e}")
+    sys.exit(1)
 
-# Colors for output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+cluster_name = inventory['cluster']['name']
+cluster_endpoint = inventory['cluster']['endpoint']
+print(f"Generating configs for cluster: {cluster_name} at {cluster_endpoint}")
 
-echo -e "${GREEN}==> Generating Talos configurations...${NC}"
+# Generate Secrets
+secrets_path = os.path.join(OUTPUT_DIR, "secrets.yaml")
+if not os.path.exists(secrets_path):
+    print("Generating secrets...")
+    subprocess.run(["talosctl", "gen", "secrets", "-o", secrets_path], check=True)
+else:
+    print("Secrets already exist, skipping.")
 
-# Check for talosctl
-if ! command -v talosctl &> /dev/null; then
-    echo "Error: talosctl not found. Please install it first."
-    echo "Visit: https://www.talos.dev/latest/introduction/getting-started/"
-    exit 1
-fi
-
-# Parse cluster endpoint from inventory
-CLUSTER_ENDPOINT=$(grep -A2 "^cluster:" "$INVENTORY" | grep "endpoint:" | awk '{print $2}')
-CLUSTER_NAME=$(grep -A2 "^cluster:" "$INVENTORY" | grep "name:" | awk '{print $2}')
-
-echo "Cluster Name: $CLUSTER_NAME"
-echo "Cluster Endpoint: $CLUSTER_ENDPOINT"
-
-# Generate secrets if they don't exist
-if [ ! -f "$OUTPUT_DIR/secrets.yaml" ]; then
-    echo -e "${YELLOW}Generating secrets...${NC}"
-    talosctl gen secrets -o "$OUTPUT_DIR/secrets.yaml"
-else
-    echo "Secrets already exist, skipping generation"
-fi
-
-# Generate configs for core control plane nodes
-echo -e "${GREEN}Generating core control plane configs...${NC}"
-for i in 1 2 3; do
-    NODE_IP="10.10.0.1$i"
-    HOSTNAME="talos-core-0$i"
+def generate_config(node, output_type):
+    hostname = node['hostname']
+    ip = node['ip']
+    storage_ip = node.get('storage_ip')
+    role = node['role']
     
-    talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \
-        --with-secrets "$OUTPUT_DIR/secrets.yaml" \
-        --config-patch @"$PATCHES_DIR/core.yaml" \
-        --output "$OUTPUT_DIR/controlplane-$HOSTNAME.yaml" \
-        --output-types controlplane \
-        --additional-sans "$NODE_IP" \
-        --additional-sans "$HOSTNAME"
+    # Determine patch file
+    patch_file = "core.yaml" if "core" in hostname else "edge.yaml"
+    patch_path = os.path.join(PATCHES_DIR, patch_file)
     
-    echo "Generated: controlplane-$HOSTNAME.yaml"
-done
-
-# Generate configs for edge worker nodes
-echo -e "${GREEN}Generating edge worker configs...${NC}"
-for i in 1 2; do
-    NODE_IP="10.10.0.2$i"
-    HOSTNAME="talos-edge-0$i"
+    # Generate node-specific network patch
+    node_patch = {
+        "machine": {
+            "network": {
+                "hostname": hostname,
+                "interfaces": [
+                    {
+                        "interface": "eth0",
+                        "addresses": [f"{ip}/24"]
+                    }
+                ]
+            }
+        }
+    }
     
-    talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \
-        --with-secrets "$OUTPUT_DIR/secrets.yaml" \
-        --config-patch @"$PATCHES_DIR/edge.yaml" \
-        --output "$OUTPUT_DIR/worker-$HOSTNAME.yaml" \
-        --output-types worker
+    # Add storage interface if available
+    if storage_ip:
+        node_patch["machine"]["network"]["interfaces"].append({
+            "interface": "eth1",
+            "addresses": [f"{storage_ip}/24"]
+        })
     
-    echo "Generated: worker-$HOSTNAME.yaml"
-done
+    # Add VIP for control plane
+    if role == "controlplane" and hostname == "talos-core-01": # Simple logic for VIP anchor
+         node_patch["machine"]["network"]["interfaces"][0]["vip"] = {
+             "ip": "10.10.0.10"
+         }
+    
+    node_patch_path = os.path.join(OUTPUT_DIR, f"patch-{hostname}.yaml")
+    with open(node_patch_path, 'w') as f:
+        yaml.dump(node_patch, f)
 
-# Generate talosconfig for cluster management
-echo -e "${GREEN}Generating talosconfig...${NC}"
-talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \
-    --with-secrets "$OUTPUT_DIR/secrets.yaml" \
-    --output-types talosconfig \
-    --output "$OUTPUT_DIR/talosconfig"
+    output_prefix = "controlplane" if role == "controlplane" else "worker"
+    output_file = os.path.join(OUTPUT_DIR, f"{output_prefix}-{hostname}.yaml")
+    
+    cmd = [
+        "talosctl", "gen", "config", cluster_name, cluster_endpoint,
+        "--with-secrets", secrets_path,
+        "--config-patch", f"@{patch_path}",
+        "--config-patch", f"@{node_patch_path}",
+        "--output", output_file,
+        "--output-types", role if role == "controlplane" else "worker"
+    ]
+    
+    if role == "controlplane":
+        cmd.extend(["--additional-sans", ip, "--additional-sans", hostname, "--additional-sans", "10.10.0.10"])
+        
+    print(f"Generating {output_file}...")
+    subprocess.run(cmd, check=True)
+    
+    # Clean up node patch
+    os.remove(node_patch_path)
 
-echo -e "${GREEN}==> Configuration generation complete!${NC}"
-echo ""
-echo "Next steps:"
-echo "1. Review generated configs in $OUTPUT_DIR"
-echo "2. Apply configs to nodes: talosctl apply-config --insecure --nodes <NODE_IP> --file <CONFIG_FILE>"
-echo "3. Bootstrap cluster: ./talos/bootstrap.sh"
+# Process Core Nodes
+for node in inventory.get('core_nodes', []):
+    generate_config(node, node['role'])
+
+# Process Edge Nodes
+for node in inventory.get('edge_nodes', []):
+    generate_config(node, "worker")
+
+# Generate talosconfig
+print("Generating talosconfig...")
+subprocess.run([
+    "talosctl", "gen", "config", cluster_name, cluster_endpoint,
+    "--with-secrets", secrets_path,
+    "--output-types", "talosconfig",
+    "--output", os.path.join(OUTPUT_DIR, "talosconfig")
+], check=True)
+
+print("\nDone! Storage network configured on eth1 (2.5GbE).")

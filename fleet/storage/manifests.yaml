@@ -4,6 +4,29 @@ kind: Namespace
 metadata:
   name: longhorn-system
 ---
+# NetworkAttachmentDefinition for Longhorn storage network (2.5GbE)
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: longhorn-storage-net
+  namespace: longhorn-system
+spec:
+  config: '{
+      "cniVersion": "0.3.1",
+      "type": "macvlan",
+      "master": "eth1",
+      "mode": "bridge",
+      "ipam": {
+        "type": "host-local",
+        "subnet": "10.10.1.0/24",
+        "rangeStart": "10.10.1.100",
+        "rangeEnd": "10.10.1.200",
+        "routes": [
+          { "dst": "10.10.1.0/24" }
+        ]
+      }
+    }'
+---
 # Longhorn distributed block storage
 # Configured for core nodes only, replicas=2
 apiVersion: helm.cattle.io/v1
@@ -26,6 +49,7 @@ spec:
       # Storage configuration
       storageOverProvisioningPercentage: 200
       storageMinimalAvailablePercentage: 10
+      storageNetwork: "longhorn-storage-net"
 
       # Backup configuration (optional)
       backupTarget: ""
