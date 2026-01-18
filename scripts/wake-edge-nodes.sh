@@ -29,7 +29,7 @@ wake_node() {
     local ip=$3
     
     echo -e "${YELLOW}Waking $hostname ($mac)...${NC}"
-    wakeonlan -i 10.0.0.255 "$mac"
+    wakeonlan -i 10.10.0.255 "$mac"
     
     echo -e "${YELLOW}Waiting for $hostname to come online...${NC}"
     for i in {1..30}; do
@@ -49,28 +49,23 @@ if [ $# -eq 0 ]; then
     echo "Usage: $0 <edge-node-name|all>"
     echo ""
     echo "Available edge nodes:"
-    echo "  talos-edge-01 (10.0.1.21)"
-    echo "  talos-edge-02 (10.0.1.22)"
-    echo "  talos-edge-03 (10.0.1.23)"
+    echo "  talos-edge-01 (10.10.0.21)"
+    echo "  talos-edge-02 (10.10.0.22)"
     echo "  all           (wake all edge nodes)"
     exit 1
 fi
 
 case "$1" in
     talos-edge-01)
-        wake_node "talos-edge-01" "00:00:00:00:01:01" "10.0.1.21"
+        wake_node "talos-edge-01" "00:00:00:00:01:01" "10.10.0.21"
         ;;
     talos-edge-02)
-        wake_node "talos-edge-02" "00:00:00:00:01:02" "10.0.1.22"
-        ;;
-    talos-edge-03)
-        wake_node "talos-edge-03" "00:00:00:00:01:03" "10.0.1.23"
+        wake_node "talos-edge-02" "00:00:00:00:01:02" "10.10.0.22"
         ;;
     all)
         echo -e "${GREEN}Waking all edge nodes...${NC}"
-        wake_node "talos-edge-01" "00:00:00:00:01:01" "10.0.1.21"
-        wake_node "talos-edge-02" "00:00:00:00:01:02" "10.0.1.22"
-        wake_node "talos-edge-03" "00:00:00:00:01:03" "10.0.1.23"
+        wake_node "talos-edge-01" "00:00:00:00:01:01" "10.10.0.21"
+        wake_node "talos-edge-02" "00:00:00:00:01:02" "10.10.0.22"
         ;;
     *)
         echo -e "${RED}Error: Unknown node '$1'${NC}"

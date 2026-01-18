@@ -36,7 +36,7 @@ fi
 export TALOSCONFIG="$TALOSCONFIG"
 
 # Parse first control plane node from inventory
-BOOTSTRAP_NODE="10.0.0.11"  # talos-core-01
+BOOTSTRAP_NODE="10.10.0.11"  # talos-core-01
 
 echo "Using bootstrap node: $BOOTSTRAP_NODE"
 

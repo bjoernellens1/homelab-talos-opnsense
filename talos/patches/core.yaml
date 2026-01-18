@@ -1,24 +1,28 @@
 ---
-# Core node patch - for control plane and core worker nodes
+# Core node patch - for control plane nodes
 # These nodes are always-on and host critical services
+# Hardware: Fujitsu Esprimo (64GB RAM, i5-7400T)
 
 machine:
   kubelet:
     extraArgs:
-      # Enable container log rotation
       rotate-certificates: true
     nodeIP:
       validSubnets:
-        - 10.0.0.0/24  # Core network
+        - 10.10.0.0/24  # Cluster network
+    nodeLabels:
+      node-role: core
+      availability: always-on
+      storage: longhorn
 
   network:
     nameservers:
-      - 10.0.0.1  # OPNsense with split DNS
+      - 10.10.0.1  # OPNsense with split DNS
 
   time:
     servers:
-      - 10.0.0.1
-      - time.cloudflare.com
+      - 10.10.0.1
+      - time.google.com
 
   sysctls:
     # Kernel tuning for Longhorn
@@ -26,23 +30,9 @@ machine:
     fs.inotify.max_user_watches: "524288"
     fs.inotify.max_user_instances: "512"
 
-  install:
-    wipe: false
-
 cluster:
-  allowSchedulingOnControlPlanes: false
+  allowSchedulingOnControlPlanes: true  # Allowed as per tasks.md
 
   network:
     cni:
-      name: none  # Will be installed via Fleet (Cilium recommended)
-
-  proxy:
-    disabled: false
-
-  discovery:
-    enabled: true
-    registries:
-      kubernetes:
-        disabled: false
-      service:
-        disabled: false
+      name: none  # Installed via Fleet (Cilium)

@@ -42,7 +42,7 @@ fi
 # Generate configs for core control plane nodes
 echo -e "${GREEN}Generating core control plane configs...${NC}"
 for i in 1 2 3; do
-    NODE_IP="10.0.0.1$i"
+    NODE_IP="10.10.0.1$i"
     HOSTNAME="talos-core-0$i"
     
     talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \
@@ -56,25 +56,10 @@ for i in 1 2 3; do
     echo "Generated: controlplane-$HOSTNAME.yaml"
 done
 
-# Generate configs for core worker nodes
-echo -e "${GREEN}Generating core worker configs...${NC}"
-for i in 4 5; do
-    NODE_IP="10.0.0.1$i"
-    HOSTNAME="talos-core-0$i"
-    
-    talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \
-        --with-secrets "$OUTPUT_DIR/secrets.yaml" \
-        --config-patch @"$PATCHES_DIR/core.yaml" \
-        --output "$OUTPUT_DIR/worker-$HOSTNAME.yaml" \
-        --output-types worker
-    
-    echo "Generated: worker-$HOSTNAME.yaml"
-done
-
 # Generate configs for edge worker nodes
 echo -e "${GREEN}Generating edge worker configs...${NC}"
-for i in 1 2 3; do
-    NODE_IP="10.0.1.2$i"
+for i in 1 2; do
+    NODE_IP="10.10.0.2$i"
     HOSTNAME="talos-edge-0$i"
     
     talosctl gen config "$CLUSTER_NAME" "$CLUSTER_ENDPOINT" \

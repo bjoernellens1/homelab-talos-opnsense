@@ -41,12 +41,12 @@ spec:
 
     longhornManager:
       nodeSelector:
-        storage-node: "true"
+        storage: longhorn
       tolerations: []
 
     longhornDriver:
       nodeSelector:
-        storage-node: "true"
+        storage: longhorn
       tolerations: []
 
     longhornUI:

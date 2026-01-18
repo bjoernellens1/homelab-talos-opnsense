@@ -11,19 +11,19 @@ Split DNS allows the cluster to resolve internal hostnames while still accessing
 ```
 ┌─────────────────┐
 │   Talos Nodes   │
-│  (10.0.0.0/16)  │
+│  (10.10.0.0/24) │
 └────────┬────────┘
          │
          │ DNS Queries
          ▼
 ┌─────────────────┐
 │    OPNsense     │
-│   10.0.0.1      │
+│   10.10.0.1     │
 ├─────────────────┤
 │  Unbound DNS    │
 └────────┬────────┘
          │
-         ├─ Internal: cluster.local, *.homelab → Local resolution
+         ├─ Internal: cluster.local, *.home.arpa → Local resolution
          └─ External: *.com, *.org, etc. → Upstream (1.1.1.1, 8.8.8.8)
 ```
 
@@ -46,18 +46,15 @@ Add the following host overrides for cluster infrastructure:
 
 | Host | Domain | IP Address | Description |
 |------|--------|------------|-------------|
-| api | cluster.local | 10.0.0.10 | Kubernetes API VIP |
-| talos-core-01 | cluster.local | 10.0.0.11 | Control plane node 1 |
-| talos-core-02 | cluster.local | 10.0.0.12 | Control plane node 2 |
-| talos-core-03 | cluster.local | 10.0.0.13 | Control plane node 3 |
-| talos-core-04 | cluster.local | 10.0.0.14 | Core worker node 1 |
-| talos-core-05 | cluster.local | 10.0.0.15 | Core worker node 2 |
-| talos-edge-01 | cluster.local | 10.0.1.21 | Edge worker node 1 |
-| talos-edge-02 | cluster.local | 10.0.1.22 | Edge worker node 2 |
-| talos-edge-03 | cluster.local | 10.0.1.23 | Edge worker node 3 |
-| ingress | homelab | 10.0.0.100 | Ingress controller |
-| longhorn | homelab | 10.0.0.101 | Longhorn UI |
-| grafana | homelab | 10.0.0.102 | Grafana dashboard |
+| api | cluster.local | 10.10.0.10 | Kubernetes API VIP |
+| talos-core-01 | home.arpa | 10.10.0.11 | Control plane node 1 |
+| talos-core-02 | home.arpa | 10.10.0.12 | Control plane node 2 |
+| talos-core-03 | home.arpa | 10.10.0.13 | Control plane node 3 |
+| talos-edge-01 | home.arpa | 10.10.0.21 | Edge worker node 1 |
+| talos-edge-02 | home.arpa | 10.10.0.22 | Edge worker node 2 |
+| jellyfin | home.arpa | 10.10.0.50 | Jellyfin service |
+| opencloud | home.arpa | 10.10.0.50 | OpenCloud service |
+| wol | home.arpa | 10.10.0.60 | Wake-on-LAN gateway |
 
 #### Domain Overrides
 
@@ -65,8 +62,8 @@ Add domain overrides to resolve entire domains locally:
 
 | Domain | IP Address | Description |
 |--------|------------|-------------|
-| cluster.local | 10.0.0.10 | Cluster internal domain |
-| homelab | 10.0.0.1 | Homelab services |
+| cluster.local | 10.10.0.10 | Cluster internal domain |
+| home.arpa | 10.10.0.1 | Homelab services |
 
 ### 3. Configure Upstream DNS Servers
 
@@ -103,14 +100,13 @@ Add custom configuration:
 server:
   # Local zones for cluster
   local-zone: "cluster.local." static
-  local-zone: "homelab." static
+  local-zone: "home.arpa." static
   
   # Respond authoritatively for local domains
-  local-zone: "0.0.10.in-addr.arpa." static
-  local-zone: "1.0.10.in-addr.arpa." static
+  local-zone: "0.10.10.in-addr.arpa." static
   
   # Private address ranges
-  private-address: 10.0.0.0/16
+  private-address: 10.10.0.0/24
   
   # Cache tuning
   cache-min-ttl: 60
@@ -196,7 +192,7 @@ Ensure all nodes use OPNsense as their only DNS server. Verify in Talos configs:
 machine:
   network:
     nameservers:
-      - 10.0.0.1
+      - 10.10.0.1
 ```
 
 ## Security Considerations

@@ -16,14 +16,11 @@ data:
     # Edge nodes that can be woken via WoL
     edge_nodes:
       - hostname: talos-edge-01
-        ip: 10.0.1.21
+        ip: 10.10.0.21
         mac: 00:00:00:00:01:01
       - hostname: talos-edge-02
-        ip: 10.0.1.22
+        ip: 10.10.0.22
         mac: 00:00:00:00:01:02
-      - hostname: talos-edge-03
-        ip: 10.0.1.23
-        mac: 00:00:00:00:01:03
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,7 +48,7 @@ spec:
           name: http
         env:
         - name: WOL_BROADCAST
-          value: "10.0.0.255"
+          value: "10.10.0.255"
         volumeMounts:
         - name: config
           mountPath: /config
@@ -107,4 +104,3 @@ spec:
               echo "Waking edge nodes..."
               curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-01
               curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-02
-              curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-03

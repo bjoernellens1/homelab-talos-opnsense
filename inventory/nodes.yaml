@@ -4,128 +4,111 @@
 
 cluster:
   name: homelab
-  endpoint: https://10.0.0.10:6443  # VIP for control plane
+  endpoint: https://10.10.0.10:6443  # VIP for control plane
   domain: cluster.local
 
 # Core nodes - always-on, host control plane and critical workloads
+# Hardware: 3x Fujitsu Esprimo (64GB RAM, i5-7400T)
 core_nodes:
   - hostname: talos-core-01
-    ip: 10.0.0.11
+    ip: 10.10.0.11
     role: controlplane
     mac: 00:00:00:00:00:01
     specs:
       cpu: 4
-      memory: 8192  # MB
-      disk: /dev/sda
+      memory: 65536  # MB (64GB)
+      disk: /dev/nvme0n1  # 250GB OS
+      data_disks:
+        - /dev/sda  # 1TB SATA SSD
+        - /dev/sdb  # 1TB SATA SSD
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
+      node-role: core
+      availability: always-on
+      storage: longhorn
 
   - hostname: talos-core-02
-    ip: 10.0.0.12
+    ip: 10.10.0.12
     role: controlplane
     mac: 00:00:00:00:00:02
     specs:
       cpu: 4
-      memory: 8192
-      disk: /dev/sda
+      memory: 65536
+      disk: /dev/nvme0n1
+      data_disks:
+        - /dev/sda
+        - /dev/sdb
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
+      node-role: core
+      availability: always-on
+      storage: longhorn
 
   - hostname: talos-core-03
-    ip: 10.0.0.13
+    ip: 10.10.0.13
     role: controlplane
     mac: 00:00:00:00:00:03
     specs:
       cpu: 4
-      memory: 8192
-      disk: /dev/sda
+      memory: 65536
+      disk: /dev/nvme0n1
+      data_disks:
+        - /dev/sda
+        - /dev/sdb
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
-
-  - hostname: talos-core-04
-    ip: 10.0.0.14
-    role: worker
-    mac: 00:00:00:00:00:04
-    specs:
-      cpu: 8
-      memory: 16384
-      disk: /dev/sda
-    labels:
-      node-role.kubernetes.io/worker: ""
-      topology.kubernetes.io/zone: core
-      storage-node: "true"  # Longhorn storage
-
-  - hostname: talos-core-05
-    ip: 10.0.0.15
-    role: worker
-    mac: 00:00:00:00:00:05
-    specs:
-      cpu: 8
-      memory: 16384
-      disk: /dev/sda
-    labels:
-      node-role.kubernetes.io/worker: ""
-      topology.kubernetes.io/zone: core
-      storage-node: "true"  # Longhorn storage
+      node-role: core
+      availability: always-on
+      storage: longhorn
 
 # Edge nodes - on-demand via WoL, tainted to prevent regular scheduling
+# Hardware: 2x Minisforum N100 (8GB RAM)
 edge_nodes:
   - hostname: talos-edge-01
-    ip: 10.0.1.21
+    ip: 10.10.0.21
     role: worker
     mac: 00:00:00:00:01:01
     specs:
       cpu: 4
-      memory: 8192
-      disk: /dev/sda
+      memory: 8192  # MB (8GB)
+      disk: /dev/nvme0n1  # 250GB OS
     labels:
       node-role.kubernetes.io/worker: ""
       topology.kubernetes.io/zone: edge
+      node-role: edge
+      availability: intermittent
     taints:
-      - key: node-role.kubernetes.io/edge
+      - key: edge
         value: "true"
         effect: NoSchedule
 
   - hostname: talos-edge-02
-    ip: 10.0.1.22
+    ip: 10.10.0.22
     role: worker
     mac: 00:00:00:00:01:02
     specs:
       cpu: 4
       memory: 8192
-      disk: /dev/sda
+      disk: /dev/nvme0n1
     labels:
       node-role.kubernetes.io/worker: ""
       topology.kubernetes.io/zone: edge
+      node-role: edge
+      availability: intermittent
     taints:
-      - key: node-role.kubernetes.io/edge
-        value: "true"
-        effect: NoSchedule
-
-  - hostname: talos-edge-03
-    ip: 10.0.1.23
-    role: worker
-    mac: 00:00:00:00:01:03
-    specs:
-      cpu: 4
-      memory: 8192
-      disk: /dev/sda
-    labels:
-      node-role.kubernetes.io/worker: ""
-      topology.kubernetes.io/zone: edge
-    taints:
-      - key: node-role.kubernetes.io/edge
+      - key: edge
         value: "true"
         effect: NoSchedule
 
 # Network configuration
 network:
-  opnsense_ip: 10.0.0.1
-  subnet: 10.0.0.0/16
-  gateway: 10.0.0.1
+  opnsense_ip: 10.10.0.1
+  subnet: 10.10.0.0/24
+  gateway: 10.10.0.1
   nameservers:
-    - 10.0.0.1  # OPNsense with split DNS
-  wol_gateway: 10.0.0.1  # WoL requests sent via OPNsense
+    - 10.10.0.1  # OPNsense with split DNS
+  wol_gateway: 10.10.0.1  # WoL requests sent via OPNsense
+  broadcast: 10.10.0.255

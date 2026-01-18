@@ -7,40 +7,40 @@ A production-ready homelab Kubernetes cluster built on Talos Linux with OPNsense
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     OPNsense Gateway                        │
-│              10.0.0.1 - Split DNS & WoL                     │
+│             10.10.0.1 - Split DNS & WoL                     │
 └───────────────────────┬─────────────────────────────────────┘
                         │
-        ┌───────────────┴────────────────┐
-        │                                │
-┌───────▼───────┐              ┌────────▼────────┐
-│  Core Nodes   │              │   Edge Nodes    │
-│   (24/7)      │              │  (On-Demand)    │
-├───────────────┤              ├─────────────────┤
-│ 3× Control    │              │ 3× Workers      │
-│    Plane      │              │ (WoL, Tainted)  │
-│ 2× Workers    │              │                 │
-│ (Longhorn)    │              │                 │
-└───────────────┘              └─────────────────┘
+         ┌──────────────┴───────────────┐
+         │ (10.10.0.0/24)               │
+┌────────▼───────┐              ┌───────▼────────┐
+│  Core Nodes    │              │   Edge Nodes   │
+│   (Always On)  │              │  (Intermittent)│
+├────────────────┤              ├────────────────┤
+│ 3× Fujitsu     │              │ 2× Minisforum  │
+│    Esprimo     │              │    N100        │
+│ (Control Plane)│              │ (Tainted)      │
+│ (Longhorn)     │              │                │
+└────────────────┘              └────────────────┘
 ```
 
 ### Components
 
 - **Talos Linux**: Immutable, API-managed Kubernetes OS
-- **Upstream Kubernetes**: Vanilla K8s without distribution lock-in
+- **Upstream Kubernetes**: Vanilla K8s (no k3s)
 - **Fleet GitOps**: Continuous delivery from Git to cluster
-- **Longhorn Storage**: Distributed block storage (replicas=2, core-only)
-- **OPNsense**: Network gateway with split DNS
-- **Wake-on-LAN**: On-demand edge node power management
+- **Longhorn Storage**: Distributed block storage (replicas=2, core nodes only)
+- **OPNsense**: Network router/firewall (Topton N100) with split DNS
+- **Wake-on-LAN**: HTTP gateway for on-demand edge node management
 
 ## Quick Start
 
 ### Prerequisites
 
-- Talos Linux bootable nodes (core: 5 nodes, edge: 3 nodes)
-- OPNsense firewall/router configured
+- Talos Linux bootable nodes (core: 3 nodes, edge: 2 nodes)
+- OPNsense firewall/router configured (Topton N100)
 - `talosctl` CLI installed
 - `kubectl` CLI installed
-- Network: 10.0.0.0/16 subnet
+- Network: 10.10.0.0/24 subnet (behind OPNsense)
 
 ### 1. Configure Inventory
 
@@ -65,19 +65,14 @@ This creates:
 For each node, apply its configuration:
 
 ```bash
-# Control plane nodes
-talosctl apply-config --insecure --nodes 10.0.0.11 --file controlplane-talos-core-01.yaml
-talosctl apply-config --insecure --nodes 10.0.0.12 --file controlplane-talos-core-02.yaml
-talosctl apply-config --insecure --nodes 10.0.0.13 --file controlplane-talos-core-03.yaml
+# Control plane nodes (Fujitsu Esprimo)
+talosctl apply-config --insecure --nodes 10.10.0.11 --file controlplane-talos-core-01.yaml
+talosctl apply-config --insecure --nodes 10.10.0.12 --file controlplane-talos-core-02.yaml
+talosctl apply-config --insecure --nodes 10.10.0.13 --file controlplane-talos-core-03.yaml
 
-# Core worker nodes
-talosctl apply-config --insecure --nodes 10.0.0.14 --file worker-talos-core-04.yaml
-talosctl apply-config --insecure --nodes 10.0.0.15 --file worker-talos-core-05.yaml
-
-# Edge worker nodes
-talosctl apply-config --insecure --nodes 10.0.1.21 --file worker-talos-edge-01.yaml
-talosctl apply-config --insecure --nodes 10.0.1.22 --file worker-talos-edge-02.yaml
-talosctl apply-config --insecure --nodes 10.0.1.23 --file worker-talos-edge-03.yaml
+# Edge worker nodes (Minisforum N100)
+talosctl apply-config --insecure --nodes 10.10.0.21 --file worker-talos-edge-01.yaml
+talosctl apply-config --insecure --nodes 10.10.0.22 --file worker-talos-edge-02.yaml
 ```
 
 ### 4. Bootstrap Cluster
@@ -131,29 +126,30 @@ kubectl get gitrepo -A
 
 ### Core Nodes
 
-Core nodes are always-on and host:
+Core nodes are always-on (Fujitsu Esprimo) and host:
 - Kubernetes control plane (3 nodes)
-- Longhorn storage (2 worker nodes)
+- Longhorn storage (Replicated across 3 nodes)
 - Critical services
 - Monitoring and logging
 
 Labels:
-- `topology.kubernetes.io/zone: core`
-- `storage-node: "true"` (for Longhorn nodes)
+- `node-role: core`
+- `availability: always-on`
+- `storage: longhorn`
 
 ### Edge Nodes
 
-Edge nodes are on-demand via Wake-on-LAN:
-- Started on schedule or trigger
+Edge nodes are on-demand (Minisforum N100) via Wake-on-LAN:
+- Started via WoL gateway
 - Tainted to prevent regular workload scheduling
 - Power off when idle
-- ~40% energy savings vs 24/7
 
 Labels:
-- `topology.kubernetes.io/zone: edge`
+- `node-role: edge`
+- `availability: intermittent`
 
 Taints:
-- `node-role.kubernetes.io/edge=true:NoSchedule`
+- `edge=true:NoSchedule`
 
 #### Wake Edge Nodes
 
@@ -206,12 +202,10 @@ See [`docs/opnsense-split-dns.md`](docs/opnsense-split-dns.md) for detailed conf
 
 ### Cluster Network
 
-- **Subnet**: 10.0.0.0/16
-- **Core nodes**: 10.0.0.0/24
-- **Edge nodes**: 10.0.1.0/24
-- **Gateway**: 10.0.0.1 (OPNsense)
-- **DNS**: 10.0.0.1 (OPNsense Unbound)
-- **Cluster VIP**: 10.0.0.10 (Kubernetes API)
+- **Subnet**: 10.10.0.0/24
+- **Gateway**: 10.10.0.1 (OPNsense)
+- **DNS**: 10.10.0.1 (OPNsense Unbound)
+- **Cluster VIP**: 10.10.0.10 (Kubernetes API)
 
 ## Energy Management
 
