@@ -1,0 +1,11 @@
+name: storage
+namespace: fleet-default
+
+# Storage bundle - Longhorn distributed storage
+# Configured for core nodes only with replica count of 2
+
+targetCustomizations:
+- name: core-storage
+  clusterSelector:
+    matchLabels:
+      cluster: homelab

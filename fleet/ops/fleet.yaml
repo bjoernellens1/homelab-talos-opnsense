@@ -1,0 +1,11 @@
+name: ops
+namespace: fleet-default
+
+# Operations bundle - monitoring, logging, observability
+# Includes Prometheus, Grafana, Loki, etc.
+
+targetCustomizations:
+- name: ops-stack
+  clusterSelector:
+    matchLabels:
+      cluster: homelab

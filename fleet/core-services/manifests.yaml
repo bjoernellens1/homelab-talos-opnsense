@@ -1,0 +1,43 @@
+---
+# Example core services - customize based on your needs
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: core-services
+---
+# Example: DNS service for internal cluster resolution
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-dns
+  namespace: core-services
+spec:
+  type: ClusterIP
+  selector:
+    app: coredns
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+---
+# Example: Internal dashboard or admin interface
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-services-config
+  namespace: core-services
+data:
+  config.yaml: |
+    # Core services configuration
+    cluster:
+      name: homelab
+      zone: core
+
+    services:
+      - name: dashboard
+        enabled: true
+        nodeSelector:
+          topology.kubernetes.io/zone: core

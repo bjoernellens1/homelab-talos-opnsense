@@ -1,0 +1,71 @@
+---
+# Example edge services - workloads that tolerate edge taints
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edge-services
+---
+# Example: Batch processing job for edge nodes
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: edge-processing
+  namespace: edge-services
+spec:
+  schedule: "0 2 * * *"  # Run at 2 AM daily
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: edge-processing
+        spec:
+          nodeSelector:
+            topology.kubernetes.io/zone: edge
+          tolerations:
+          - key: node-role.kubernetes.io/edge
+            operator: Equal
+            value: "true"
+            effect: NoSchedule
+          restartPolicy: OnFailure
+          containers:
+          - name: processor
+            image: busybox:latest
+            command:
+            - /bin/sh
+            - -c
+            - echo "Processing on edge node"; sleep 10
+---
+# Example: Edge workload deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-workload
+  namespace: edge-services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-workload
+  template:
+    metadata:
+      labels:
+        app: edge-workload
+    spec:
+      nodeSelector:
+        topology.kubernetes.io/zone: edge
+      tolerations:
+      - key: node-role.kubernetes.io/edge
+        operator: Equal
+        value: "true"
+        effect: NoSchedule
+      containers:
+      - name: workload
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
