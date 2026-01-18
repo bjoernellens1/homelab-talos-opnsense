@@ -35,7 +35,7 @@ data:
     cluster:
       name: homelab
       zone: core
-    
+
     services:
       - name: dashboard
         enabled: true

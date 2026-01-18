@@ -30,7 +30,7 @@ spec:
                   storage: 50Gi
         retention: 30d
         retentionSize: "45GB"
-        
+
     grafana:
       nodeSelector:
         topology.kubernetes.io/zone: core
@@ -39,7 +39,7 @@ spec:
         storageClassName: longhorn
         size: 10Gi
       adminPassword: changeme  # Change in production!
-      
+
     alertmanager:
       alertmanagerSpec:
         nodeSelector:
@@ -52,7 +52,7 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
-                  
+
     # Scrape edge nodes when they're online
     prometheus:
       prometheusSpec:
@@ -86,7 +86,7 @@ spec:
       config:
         limits_config:
           retention_period: 168h  # 7 days
-          
+
     promtail:
       # Deploy on all nodes to collect logs
       tolerations:

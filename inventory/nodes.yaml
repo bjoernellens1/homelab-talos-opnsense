@@ -20,7 +20,7 @@ core_nodes:
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
-      
+
   - hostname: talos-core-02
     ip: 10.0.0.12
     role: controlplane
@@ -32,7 +32,7 @@ core_nodes:
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
-      
+
   - hostname: talos-core-03
     ip: 10.0.0.13
     role: controlplane
@@ -44,7 +44,7 @@ core_nodes:
     labels:
       node-role.kubernetes.io/control-plane: ""
       topology.kubernetes.io/zone: core
-      
+
   - hostname: talos-core-04
     ip: 10.0.0.14
     role: worker
@@ -57,7 +57,7 @@ core_nodes:
       node-role.kubernetes.io/worker: ""
       topology.kubernetes.io/zone: core
       storage-node: "true"  # Longhorn storage
-      
+
   - hostname: talos-core-05
     ip: 10.0.0.15
     role: worker
@@ -88,7 +88,7 @@ edge_nodes:
       - key: node-role.kubernetes.io/edge
         value: "true"
         effect: NoSchedule
-      
+
   - hostname: talos-edge-02
     ip: 10.0.1.22
     role: worker
@@ -104,7 +104,7 @@ edge_nodes:
       - key: node-role.kubernetes.io/edge
         value: "true"
         effect: NoSchedule
-      
+
   - hostname: talos-edge-03
     ip: 10.0.1.23
     role: worker

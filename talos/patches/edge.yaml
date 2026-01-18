@@ -11,37 +11,37 @@ machine:
     nodeIP:
       validSubnets:
         - 10.0.1.0/24  # Edge network
-        
+
   network:
     nameservers:
       - 10.0.0.1  # OPNsense with split DNS
-    
+
   time:
     servers:
       - 10.0.0.1
       - time.cloudflare.com
-      
+
   sysctls:
     # Basic tuning
     vm.max_map_count: "262144"
     fs.inotify.max_user_watches: "524288"
-    
+
   install:
     wipe: false
-    
+
   # Power management for edge nodes
   features:
     # Enable kernel modules needed for power management
     rbac: true
-    
+
 cluster:
   network:
     cni:
       name: none  # Will be installed via Fleet
-    
+
   proxy:
     disabled: false
-    
+
   discovery:
     enabled: true
     registries:

@@ -22,43 +22,43 @@ spec:
       defaultReplicaCount: 2
       replicaSoftAntiAffinity: true
       replicaAutoBalance: best-effort
-      
+
       # Storage configuration
       storageOverProvisioningPercentage: 200
       storageMinimalAvailablePercentage: 10
-      
+
       # Backup configuration (optional)
       backupTarget: ""
       backupTargetCredentialSecret: ""
-      
+
       # Node selection - core nodes only
       createDefaultDiskLabeledNodes: true
       defaultDataPath: /var/lib/longhorn
-      
+
       # Performance tuning
       guaranteedEngineManagerCPU: 12
       guaranteedReplicaManagerCPU: 12
-      
+
     longhornManager:
       nodeSelector:
         storage-node: "true"
       tolerations: []
-      
+
     longhornDriver:
       nodeSelector:
         storage-node: "true"
       tolerations: []
-      
+
     longhornUI:
       nodeSelector:
         topology.kubernetes.io/zone: core
       replicas: 1
-      
+
     # Ensure Longhorn only runs on core nodes with storage-node label
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 2
-      
+
     ingress:
       enabled: false
 ---

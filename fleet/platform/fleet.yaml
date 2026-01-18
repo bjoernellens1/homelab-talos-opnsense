@@ -9,7 +9,7 @@ targetCustomizations:
   clusterSelector:
     matchLabels:
       cluster: homelab
-  
+
   helm:
     chart: ""
     repo: ""
