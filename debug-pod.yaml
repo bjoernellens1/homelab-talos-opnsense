@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: ["nsenter", "-t", "1", "-m", "-u", "-n", "-i", "--", "sh", "-c", "echo CHECKS:; which mount || echo mount not found; which iscsiadm || echo iscsiadm not found"]
+    securityContext:
+      privileged: true

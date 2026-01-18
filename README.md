@@ -42,6 +42,10 @@ A production-ready homelab Kubernetes cluster built on Talos Linux with OPNsense
 - `kubectl` CLI installed
 - Network: 10.10.0.0/24 subnet (behind OPNsense)
 
+### Quirks and Notes
+- **NixOS usage**: If you are running on NixOS, you might need to use `conda-shell` to execute python/pip commands.
+  - Example: `conda-shell -c "pip install pyyaml && python3 talos/generate.py"`
+
 ### 1. Configure Inventory
 
 Edit `inventory/nodes.yaml` with your actual node IPs and MAC addresses.

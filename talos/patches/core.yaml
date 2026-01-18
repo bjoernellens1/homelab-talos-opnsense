@@ -7,6 +7,9 @@ machine:
   install:
     disk: /dev/sda # 500GB SSD
     image: ghcr.io/siderolabs/installer:v1.11.5
+    extensions:
+      - image: ghcr.io/siderolabs/iscsi-tools:v1.11.5
+      - image: ghcr.io/siderolabs/util-linux-tools:v1.11.5
 
   nodeLabels:
     node-role: core
@@ -44,6 +47,20 @@ machine:
 
 cluster:
   allowSchedulingOnControlPlanes: true
+
+  apiServer:
+    # Enable privileged pod security for Longhorn
+    admissionControl:
+      - name: PodSecurity
+        configuration:
+          apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+          defaults:
+            enforce: "privileged"
+            enforce-version: "latest"
+            audit: "restricted"
+            audit-version: "latest"
+            warn: "restricted"
+            warn-version: "latest"
 
   network:
     cni:
