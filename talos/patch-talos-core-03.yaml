@@ -1,0 +1,15 @@
+machine:
+  install:
+    disk: /dev/nvme0n1
+  network:
+    hostname: talos-core-03
+    interfaces:
+      - addresses:
+          - 10.10.0.13/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.10.0.1
+        deviceSelector:
+          driver: r8152
+    nameservers:
+      - 10.10.0.1
