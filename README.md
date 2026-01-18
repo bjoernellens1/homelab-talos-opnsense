@@ -198,7 +198,11 @@ OPNsense provides DNS resolution for:
 - Internal: `*.cluster.local`, `*.homelab` → Local IPs
 - External: `*.com`, `*.org` → Upstream DNS
 
-See [`docs/opnsense-split-dns.md`](docs/opnsense-split-dns.md) for detailed configuration.
+See the following guides for detailed configuration:
+- [`docs/01-networking-opnsense-fritzbox.md`](docs/01-networking-opnsense-fritzbox.md) - Network integration
+- [`docs/02-hardware-layout.md`](docs/02-hardware-layout.md) - Hardware role mapping
+- [`docs/03-bare-metal-setup.md`](docs/03-bare-metal-setup.md) - Bare metal installation
+- [`docs/opnsense-split-dns.md`](docs/opnsense-split-dns.md) - Split DNS setup
 
 ### Cluster Network
 
