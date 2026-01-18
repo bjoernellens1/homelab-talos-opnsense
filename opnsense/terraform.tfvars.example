@@ -1,0 +1,8 @@
+opnsense_url        = "https://10.1.10.2"
+opnsense_api_key    = "your_api_key"
+opnsense_api_secret = "your_api_secret"
+
+fritzbox_network = "10.1.10.0/24"
+cluster_network  = "10.10.0.0/24"
+domain_internal  = "home.arpa"
+domain_cluster   = "cluster.local"

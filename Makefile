@@ -1,4 +1,4 @@
-.PHONY: help generate-configs bootstrap install-fleet check-health clean wake-edge-all
+.PHONY: help generate-configs bootstrap install-fleet check-health clean wake-edge-all opnsense-init opnsense-plan opnsense-apply
 
 help: ## Show this help message
 	@echo "Homelab Talos-OPNsense Management"
@@ -116,6 +116,19 @@ clean-all: ## Remove all generated files including secrets (DANGEROUS)
 		cd talos && rm -f secrets.yaml controlplane-*.yaml worker-*.yaml talosconfig kubeconfig; \
 		echo "All configs removed."; \
 	fi
+
+# OPNsense Automation via OpenTofu
+opnsense-init: ## Initialize OPNsense OpenTofu configuration
+	@echo "Initializing OpenTofu..."
+	cd opnsense && tofu init
+
+opnsense-plan: ## Show plan for OPNsense changes
+	@echo "Planning OPNsense changes..."
+	cd opnsense && tofu plan
+
+opnsense-apply: ## Apply OPNsense changes
+	@echo "Applying OPNsense changes..."
+	cd opnsense && tofu apply -auto-approve
 
 # Full deployment workflow
 deploy-all: check-prereqs generate-configs bootstrap install-fleet register-gitrepo check-health ## Complete deployment from scratch

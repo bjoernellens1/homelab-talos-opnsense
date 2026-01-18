@@ -84,7 +84,13 @@ cd talos
 
 This initializes the control plane and retrieves the kubeconfig.
 
-### 5. Deploy Fleet GitOps
+### 5. Deploy Core Nodes: `make generate-configs && make bootstrap`
+
+### 6. Setup OPNsense: `cd opnsense && cp terraform.tfvars.example terraform.tfvars` (then edit) and run `make opnsense-apply`
+
+### 7. Install Fleet: `make install-fleet`
+
+### 8. Deploy Fleet GitOps
 
 ```bash
 # Install Fleet
