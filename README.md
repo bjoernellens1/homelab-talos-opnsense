@@ -209,6 +209,7 @@ See the following guides for detailed configuration:
 - [`docs/02-hardware-layout.md`](docs/02-hardware-layout.md) - Hardware role mapping
 - [`docs/03-bare-metal-setup.md`](docs/03-bare-metal-setup.md) - Bare metal installation
 - [`docs/06-opnsense-split-dns.md`](docs/06-opnsense-split-dns.md) - Split DNS setup
+- [`docs/08-wdmch-setup.md`](docs/08-wdmch-setup.md) - WDMCH OMV setup guide
 
 ### Cluster Network
 
@@ -363,7 +364,8 @@ See [`docs/04-energy-tuning.md`](docs/04-energy-tuning.md#troubleshooting) for m
 │   ├── 04-energy-tuning.md     # Power optimization
 │   ├── 05-fleet-setup.md      # GitOps configuration
 │   ├── 06-opnsense-split-dns.md # DNS configuration
-│   └── 07-tasks.md            # Project task tracking
+│   ├── 07-tasks.md            # Project task tracking
+│   └── 08-wdmch-setup.md      # WDMCH OMV setup guide
 └── README.md
 ```
 
