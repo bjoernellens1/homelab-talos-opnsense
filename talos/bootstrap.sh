@@ -28,7 +28,7 @@ done
 # Check if talosconfig exists
 if [ ! -f "$TALOSCONFIG" ]; then
     echo -e "${RED}Error: talosconfig not found at $TALOSCONFIG${NC}"
-    echo "Please run ./talos/generate.sh first"
+    echo "Please run ./talos/generate.py first"
     exit 1
 fi
 

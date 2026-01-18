@@ -50,7 +50,7 @@ Edit `inventory/nodes.yaml` with your actual node IPs and MAC addresses.
 
 ```bash
 cd talos
-./generate.sh
+./generate.py
 ```
 
 This creates:
@@ -202,7 +202,7 @@ See the following guides for detailed configuration:
 - [`docs/01-networking-opnsense-fritzbox.md`](docs/01-networking-opnsense-fritzbox.md) - Network integration
 - [`docs/02-hardware-layout.md`](docs/02-hardware-layout.md) - Hardware role mapping
 - [`docs/03-bare-metal-setup.md`](docs/03-bare-metal-setup.md) - Bare metal installation
-- [`docs/opnsense-split-dns.md`](docs/opnsense-split-dns.md) - Split DNS setup
+- [`docs/06-opnsense-split-dns.md`](docs/06-opnsense-split-dns.md) - Split DNS setup
 
 ### Cluster Network
 
@@ -219,7 +219,7 @@ See the following guides for detailed configuration:
 - **Edge nodes**: On-demand, energy-optimized
 - **Estimated savings**: ~54 kWh/month
 
-See [`docs/energy-tuning.md`](docs/energy-tuning.md) for:
+See [`docs/04-energy-tuning.md`](docs/04-energy-tuning.md) for:
 - Wake-on-LAN setup
 - CPU power management
 - Automated wake/sleep schedules
@@ -326,7 +326,7 @@ kubectl get volumes -n longhorn-system
 3. Test manually: `wakeonlan -i 10.0.0.255 <MAC>`
 4. Check OPNsense allows UDP port 9
 
-See [`docs/energy-tuning.md`](docs/energy-tuning.md#troubleshooting) for more.
+See [`docs/04-energy-tuning.md`](docs/04-energy-tuning.md#troubleshooting) for more.
 
 ## Repository Structure
 
@@ -338,7 +338,7 @@ See [`docs/energy-tuning.md`](docs/energy-tuning.md#troubleshooting) for more.
 │   ├── patches/
 │   │   ├── core.yaml           # Core node patches
 │   │   └── edge.yaml           # Edge node patches
-│   ├── generate.sh             # Generate Talos configs
+│   ├── generate.py             # Generate Talos configs
 │   └── bootstrap.sh            # Bootstrap cluster
 ├── fleet/
 │   ├── platform/               # Platform bundle (CNI, Ingress)
@@ -350,8 +350,14 @@ See [`docs/energy-tuning.md`](docs/energy-tuning.md#troubleshooting) for more.
 │   ├── wake-edge-nodes.sh      # WoL script
 │   └── wol-gateway.yaml        # WoL gateway service
 ├── docs/
-│   ├── opnsense-split-dns.md   # OPNsense DNS setup
-│   └── energy-tuning.md        # Energy optimization guide
+│   ├── 00-getting-started.md   # Initial setup guide
+│   ├── 01-networking-opnsense-fritzbox.md # Network design
+│   ├── 02-hardware-layout.md   # Hardware specifications
+│   ├── 03-bare-metal-setup.md  # Installation guide
+│   ├── 04-energy-tuning.md     # Power optimization
+│   ├── 05-fleet-setup.md      # GitOps configuration
+│   ├── 06-opnsense-split-dns.md # DNS configuration
+│   └── 07-tasks.md            # Project task tracking
 └── README.md
 ```
 

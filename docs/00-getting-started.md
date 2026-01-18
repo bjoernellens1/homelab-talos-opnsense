@@ -17,7 +17,7 @@ Complete walkthrough for deploying your homelab Talos-OPNsense cluster.
 **Network**:
 - OPNsense firewall/router
 - Managed switch (for VLANs, optional)
-- 10.0.0.0/16 network configured
+- 10.10.0.0/24 network configured
 
 ### Software
 
@@ -47,18 +47,18 @@ brew install wakeonlan          # macOS
 1. Navigate to **Interfaces → LAN**
 2. Set IPv4 Configuration:
    - Type: Static IPv4
-   - IPv4 Address: 10.0.0.1
-   - Subnet Mask: 16 (10.0.0.0/16)
+   - IPv4 Address: 10.10.0.1
+   - Subnet Mask: 24 (10.10.0.0/24)
 
 3. Enable DHCP (optional):
    - Navigate to **Services → DHCPv4 → LAN**
    - Enable DHCP server
-   - Range: 10.0.0.100 - 10.0.0.200
-   - Reserve IPs for cluster nodes (10.0.0.11-15, 10.0.1.21-23)
+   - Range: 10.10.0.100 - 10.10.0.200
+   - Reserve IPs for cluster nodes (10.10.0.11-13, 10.10.0.21-22)
 
 ### 1.2 Configure DNS
 
-Follow the complete guide in [`docs/opnsense-split-dns.md`](opnsense-split-dns.md).
+Follow the complete guide in [`docs/06-opnsense-split-dns.md`](06-opnsense-split-dns.md).
 
 Quick setup:
 1. Navigate to **Services → Unbound DNS → General**
@@ -125,13 +125,13 @@ Edit `inventory/nodes.yaml` with your actual values:
 ```yaml
 core_nodes:
   - hostname: talos-core-01
-    ip: 10.0.0.11          # YOUR actual IP
+    ip: 10.10.0.11          # YOUR actual IP
     mac: AA:BB:CC:DD:EE:01 # YOUR actual MAC
     # ...
 
 edge_nodes:
   - hostname: talos-edge-01
-    ip: 10.0.1.21          # YOUR actual IP
+    ip: 10.10.0.21          # YOUR actual IP
     mac: AA:BB:CC:DD:EE:11 # YOUR actual MAC
     # ...
 ```
@@ -153,7 +153,7 @@ make generate-configs
 
 # Or manually:
 cd talos
-./generate.sh
+./generate.py
 ```
 
 This creates:
@@ -202,16 +202,12 @@ talosctl apply-config --insecure \
 
 ```bash
 talosctl apply-config --insecure \
-  --nodes 10.0.1.21 \
+  --nodes 10.10.0.21 \
   --file talos/worker-talos-edge-01.yaml
 
 talosctl apply-config --insecure \
-  --nodes 10.0.1.22 \
+  --nodes 10.10.0.22 \
   --file talos/worker-talos-edge-02.yaml
-
-talosctl apply-config --insecure \
-  --nodes 10.0.1.23 \
-  --file talos/worker-talos-edge-03.yaml
 ```
 
 ## Step 6: Bootstrap Cluster
@@ -377,7 +373,7 @@ For each edge node:
 ```bash
 # Shutdown edge node
 kubectl drain talos-edge-01 --ignore-daemonsets
-talosctl -n 10.0.1.21 shutdown
+talosctl -n 10.10.0.21 shutdown
 
 # Wait for shutdown (30-60 seconds)
 
@@ -386,7 +382,7 @@ make wake-edge-01
 # Or: ./scripts/wake-edge-nodes.sh talos-edge-01
 
 # Check node comes back online
-ping 10.0.1.21
+ping 10.10.0.21
 kubectl get nodes -w
 ```
 

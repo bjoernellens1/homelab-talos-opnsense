@@ -16,7 +16,7 @@ check-prereqs: ## Check required tools are installed
 
 generate-configs: check-prereqs ## Generate Talos configurations from inventory
 	@echo "Generating Talos configurations..."
-	cd talos && ./generate.sh
+	cd talos && ./generate.py
 
 bootstrap: check-prereqs ## Bootstrap the Kubernetes cluster
 	@echo "Bootstrapping cluster..."

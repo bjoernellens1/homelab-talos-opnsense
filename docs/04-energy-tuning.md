@@ -343,7 +343,7 @@ Configure traffic shaping in OPNsense to reduce bandwidth during off-peak:
 Unbound DNS caching reduces upstream queries:
 - Fewer packets = less NIC power
 - Faster responses = less CPU time
-- Configure in `docs/opnsense-split-dns.md`
+- Configure in `docs/06-opnsense-split-dns.md`
 
 ## Measuring Success
 

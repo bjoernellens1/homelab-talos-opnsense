@@ -22,7 +22,7 @@ The Topton N100 acts as the core gateway and router.
 2. **WAN Setup**: Connect to the Fritzbox LAN. Set to DHCP or Static (`10.1.10.2`).
 3. **LAN Setup**: Set IP to `10.10.0.1`.
 4. **Power Savings**: Navigate to **System -> Settings -> Miscellaneous**. Enable `powerd` and set to `adaptive`.
-5. **DNS**: Configure Unbound as per [Split DNS Guide](01-networking-opnsense-fritzbox.md).
+5. **DNS**: Configure Unbound as per [Split DNS Guide](06-opnsense-split-dns.md).
 
 ---
 
@@ -54,7 +54,7 @@ For optimal performance, this repository configures a dedicated storage network:
 - **`eth0` (1Gb/Internal)**: Management, Control Plane, and External access (`10.10.0.0/24`).
 - **`eth1` (2.5Gb/USB)**: Longhorn Replication and Storage traffic (`10.10.1.0/24`).
 
-This is handled automatically by `talos/generate.sh`, but ensure your USB NICs are plugged in before applying the configuration.
+This is handled automatically by `talos/generate.py`, but ensure your USB NICs are plugged in before applying the configuration.
 To run Longhorn and hardware media transcoding on Talos, specific machine configuration patches are required (already included in `talos/patches/`):
 
 1. **Longhorn Mounts**: The `/var/lib/longhorn` directory must be bind-mounted into the kubelet container.
