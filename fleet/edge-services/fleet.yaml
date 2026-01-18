@@ -1,11 +1,6 @@
-name: edge-services
-namespace: fleet-default
-
-# Edge services bundle - services for edge nodes
-# These workloads tolerate edge taints and can run on WoL nodes
-
+defaultNamespace: edge-services
 targetCustomizations:
-- name: edge-workloads
+- name: core-nodes
   clusterSelector:
     matchLabels:
       cluster: homelab

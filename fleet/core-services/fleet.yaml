@@ -1,11 +1,6 @@
-name: core-services
-namespace: fleet-default
-
-# Core services bundle - services that run on core nodes
-# Includes monitoring, logging, and other always-on services
-
+defaultNamespace: core-services
 targetCustomizations:
-- name: core-only
+- name: core-nodes
   clusterSelector:
     matchLabels:
       cluster: homelab

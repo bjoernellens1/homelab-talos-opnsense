@@ -1,0 +1,9 @@
+controller:
+  kind: DaemonSet
+  service:
+    type: LoadBalancer
+    externalIPs:
+      - 10.10.0.50
+  nodeSelector:
+    topology.kubernetes.io/zone: core
+  tolerations: []
