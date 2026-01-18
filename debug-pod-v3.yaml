@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Listing /host/bin:"
+        nsenter -t 1 -m -u -n -i -- ls -F /bin/ || echo "Failed to ls /bin"
+        echo "Listing /host/usr/bin:"
+        nsenter -t 1 -m -u -n -i -- ls -F /usr/bin/ || echo "Failed to ls /usr/bin"
+        echo "Listing /host/usr/local/bin:"
+        nsenter -t 1 -m -u -n -i -- ls -F /usr/local/bin/ || echo "Failed to ls /usr/local/bin"
+        echo "Checking for mount presence explicitly:"
+        nsenter -t 1 -m -u -n -i -- find / -name mount -type f 2>/dev/null || echo "Find failed"
+    securityContext:
+      privileged: true

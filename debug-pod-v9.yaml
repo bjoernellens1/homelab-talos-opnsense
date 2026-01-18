@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    volumeMounts:
+    - name: host-root
+      mountPath: /host
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Searching host root for mount..."
+        find /host -name mount -type f 2>/dev/null
+        echo "Searching host root for iscsiadm..."
+        find /host -name iscsiadm -type f 2>/dev/null
+        echo "Checking /host/usr/local/bin..."
+        ls -F /host/usr/local/bin/
+        echo "Checking /host/usr/local/sbin..."
+        ls -F /host/usr/local/sbin/
+  volumes:
+  - name: host-root
+    hostPath:
+      path: /

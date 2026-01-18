@@ -9,7 +9,7 @@ machine:
     image: ghcr.io/siderolabs/installer:v1.11.5
     extensions:
       - image: ghcr.io/siderolabs/iscsi-tools:v1.11.5
-      - image: ghcr.io/siderolabs/util-linux-tools:v1.11.5
+      - image: ghcr.io/siderolabs/util-linux:v0.4.1
 
   nodeLabels:
     node-role: core

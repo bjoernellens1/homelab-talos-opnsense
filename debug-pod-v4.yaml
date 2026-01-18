@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Searching for iscsiadm..."
+        nsenter -t 1 -m -u -n -i -- /usr/local/sbin/iscsiadm --version && echo "Found at /usr/local/sbin/iscsiadm"
+        nsenter -t 1 -m -u -n -i -- /usr/local/bin/iscsiadm --version && echo "Found at /usr/local/bin/iscsiadm"
+        nsenter -t 1 -m -u -n -i -- /sbin/iscsiadm --version && echo "Found at /sbin/iscsiadm"
+        nsenter -t 1 -m -u -n -i -- /bin/iscsiadm --version && echo "Found at /bin/iscsiadm"
+        
+        echo "Searching for mount..."
+        nsenter -t 1 -m -u -n -i -- /usr/local/sbin/mount --version && echo "Found at /usr/local/sbin/mount"
+        nsenter -t 1 -m -u -n -i -- /usr/local/bin/mount --version && echo "Found at /usr/local/bin/mount"
+        nsenter -t 1 -m -u -n -i -- /bin/mount --version && echo "Found at /bin/mount"
+        
+        echo "Searching for nsenter on host..."
+        nsenter -t 1 -m -u -n -i -- /usr/bin/nsenter --version && echo "Found at /usr/bin/nsenter"
+    securityContext:
+      privileged: true

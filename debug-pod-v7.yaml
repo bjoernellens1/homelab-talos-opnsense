@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Testing write to /proc/1/root/usr/local/bin..."
+        touch /proc/1/root/usr/local/bin/test_write && echo "Success: Wrote to /usr/local/bin" || echo "Fail: Read-only"
+        
+        echo "Testing write to /proc/1/root/var/..."
+        touch /proc/1/root/var/test_write && echo "Success: Wrote to /var" || echo "Fail: Read-only"
+    securityContext:
+      privileged: true

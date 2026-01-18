@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Inspecting Host Filesystem via /proc/1/root..."
+        
+        echo "Checking /proc/1/root/usr/local/sbin:"
+        ls -F /proc/1/root/usr/local/sbin/ || echo "Failed to ls /usr/local/sbin"
+        
+        echo "Checking /proc/1/root/usr/local/bin:"
+        ls -F /proc/1/root/usr/local/bin/ || echo "Failed to ls /usr/local/bin"
+        
+        echo "Searching for 'mount' in typical paths:"
+        if [ -f /proc/1/root/bin/mount ]; then echo "Found /bin/mount"; fi
+        if [ -f /proc/1/root/sbin/mount ]; then echo "Found /sbin/mount"; fi
+        if [ -f /proc/1/root/usr/bin/mount ]; then echo "Found /usr/bin/mount"; fi
+        if [ -f /proc/1/root/usr/sbin/mount ]; then echo "Found /usr/sbin/mount"; fi
+        if [ -f /proc/1/root/usr/local/bin/mount ]; then echo "Found /usr/local/bin/mount"; fi
+        if [ -f /proc/1/root/usr/local/sbin/mount ]; then echo "Found /usr/local/sbin/mount"; fi
+        
+        echo "Searching for 'blkid' and others:"
+        if [ -f /proc/1/root/usr/local/sbin/blkid ]; then echo "Found /usr/local/sbin/blkid"; fi
+        
+        echo "Checking iscsiadm location again:"
+        find /proc/1/root/usr/local -name iscsiadm
+    securityContext:
+      privileged: true

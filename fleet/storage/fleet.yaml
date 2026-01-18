@@ -2,7 +2,7 @@ defaultNamespace: longhorn-system
 helm:
   repo: https://charts.longhorn.io
   chart: longhorn
-  version: 1.5.3
+  version: 1.7.2
   values:
     defaultSettings:
       defaultReplicaCount: 2

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Exploring /usr/local/lib..."
+        ls -F /proc/1/root/usr/local/lib/ || echo "Failed /usr/local/lib"
+        
+        echo "Exploring /system/extensions..."
+        ls -F /proc/1/root/system/extensions/ || echo "Failed /system/extensions"
+    securityContext:
+      privileged: true

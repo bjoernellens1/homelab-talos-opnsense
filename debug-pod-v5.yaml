@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Searching for mount in /usr/sbin or /sbin..."
+        nsenter -t 1 -m -u -n -i -- /usr/sbin/mount --version && echo "Found at /usr/sbin/mount"
+        nsenter -t 1 -m -u -n -i -- /sbin/mount --version && echo "Found at /sbin/mount"
+        
+        echo "Searching for blkid (util-linux)..."
+        nsenter -t 1 -m -u -n -i -- /usr/local/sbin/blkid -V && echo "Found blkid at /usr/local/sbin"
+        nsenter -t 1 -m -u -n -i -- /usr/local/bin/blkid -V && echo "Found blkid at /usr/local/bin"
+        
+        echo "Searching for findmnt (util-linux)..."
+        nsenter -t 1 -m -u -n -i -- /usr/local/sbin/findmnt -V && echo "Found findmnt at /usr/local/sbin"
+        nsenter -t 1 -m -u -n -i -- /usr/local/bin/findmnt -V && echo "Found findmnt at /usr/local/bin"
+    securityContext:
+      privileged: true

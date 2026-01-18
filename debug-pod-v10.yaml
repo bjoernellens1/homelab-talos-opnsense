@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-check
+spec:
+  nodeName: talos-core-01
+  hostPID: true
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: alpine
+    volumeMounts:
+    - name: host-root
+      mountPath: /host
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - |
+        echo "Checking /host/bin..."
+        ls -F /host/bin/ || echo "Failed /host/bin"
+        echo "Checking /host/usr/bin..."
+        ls -F /host/usr/bin/ || echo "Failed /host/usr/bin"
+        echo "Checking /host/sbin..."
+        ls -F /host/sbin/ || echo "Failed /host/sbin"
+  volumes:
+  - name: host-root
+    hostPath:
+      path: /
