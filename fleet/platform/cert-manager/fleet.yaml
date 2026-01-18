@@ -1,0 +1,14 @@
+defaultNamespace: cert-manager
+helm:
+  repo: https://charts.jetstack.io
+  chart: cert-manager
+  version: v1.13.3
+  values:
+    installCRDs: true
+    nodeSelector:
+      topology.kubernetes.io/zone: core
+targetCustomizations:
+- name: core-nodes
+  clusterSelector:
+    matchLabels:
+      cluster: homelab

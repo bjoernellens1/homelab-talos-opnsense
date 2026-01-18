@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
+# Uptime monitoring for edge nodes
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uptime-monitor-config
+  namespace: monitoring
+data:
+  targets.yaml: |
+    # Edge node uptime monitoring
+    targets:
+      - name: talos-edge-01
+        ip: 10.0.1.21
+        mac: 00:00:00:00:01:01
+      - name: talos-edge-02
+        ip: 10.0.1.22
+        mac: 00:00:00:00:01:02
+      - name: talos-edge-03
+        ip: 10.0.1.23
+        mac: 00:00:00:00:01:03

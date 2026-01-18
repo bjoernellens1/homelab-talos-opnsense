@@ -1,11 +1,44 @@
-name: storage
-namespace: fleet-default
+defaultNamespace: longhorn-system
+helm:
+  repo: https://charts.longhorn.io
+  chart: longhorn
+  version: 1.5.3
+  values:
+    defaultSettings:
+      defaultReplicaCount: 2
+      replicaSoftAntiAffinity: true
+      replicaAutoBalance: best-effort
+      storageOverProvisioningPercentage: 200
+      storageMinimalAvailablePercentage: 10
+      createDefaultDiskLabeledNodes: true
+      defaultDataPath: /var/lib/longhorn
+      guaranteedEngineManagerCPU: 12
+      guaranteedReplicaManagerCPU: 12
 
-# Storage bundle - Longhorn distributed storage
-# Configured for core nodes only with replica count of 2
+    longhornManager:
+      nodeSelector:
+        storage: longhorn
+      tolerations: []
+
+    longhornDriver:
+      nodeSelector:
+        storage: longhorn
+      tolerations: []
+
+    longhornUI:
+      nodeSelector:
+        topology.kubernetes.io/zone: core
+      replicas: 1
+
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 2
+
+    ingress:
+      enabled: false
 
 targetCustomizations:
-- name: core-storage
+- name: core-nodes
   clusterSelector:
     matchLabels:
       cluster: homelab

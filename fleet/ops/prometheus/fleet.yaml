@@ -1,0 +1,50 @@
+defaultNamespace: monitoring
+helm:
+  repo: https://prometheus-community.github.io/helm-charts
+  chart: kube-prometheus-stack
+  version: 55.5.0
+  values:
+    prometheus:
+      prometheusSpec:
+        nodeSelector:
+          topology.kubernetes.io/zone: core
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
+        retention: 30d
+        retentionSize: "45GB"
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+
+    grafana:
+      nodeSelector:
+        topology.kubernetes.io/zone: core
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 10Gi
+      adminPassword: changeme
+
+    alertmanager:
+      alertmanagerSpec:
+        nodeSelector:
+          topology.kubernetes.io/zone: core
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+
+targetCustomizations:
+- name: core-nodes
+  clusterSelector:
+    matchLabels:
+      cluster: homelab

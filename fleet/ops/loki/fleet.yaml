@@ -1,0 +1,26 @@
+defaultNamespace: logging
+helm:
+  repo: https://grafana.github.io/helm-charts
+  chart: loki-stack
+  version: 2.9.11
+  values:
+    loki:
+      nodeSelector:
+        topology.kubernetes.io/zone: core
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 50Gi
+      config:
+        limits_config:
+          retention_period: 168h
+
+    promtail:
+      tolerations:
+      - operator: Exists
+
+targetCustomizations:
+- name: core-nodes
+  clusterSelector:
+    matchLabels:
+      cluster: homelab
