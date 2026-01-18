@@ -1,0 +1,19 @@
+# Talos generated secrets and configs
+talos/secrets.yaml
+talos/controlplane*.yaml
+talos/worker*.yaml
+talos/*.kubeconfig
+*.pem
+*.key
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

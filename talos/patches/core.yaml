@@ -1,0 +1,48 @@
+---
+# Core node patch - for control plane and core worker nodes
+# These nodes are always-on and host critical services
+
+machine:
+  kubelet:
+    extraArgs:
+      # Enable container log rotation
+      rotate-certificates: true
+    nodeIP:
+      validSubnets:
+        - 10.0.0.0/24  # Core network
+        
+  network:
+    nameservers:
+      - 10.0.0.1  # OPNsense with split DNS
+    
+  time:
+    servers:
+      - 10.0.0.1
+      - time.cloudflare.com
+      
+  sysctls:
+    # Kernel tuning for Longhorn
+    vm.max_map_count: "262144"
+    fs.inotify.max_user_watches: "524288"
+    fs.inotify.max_user_instances: "512"
+    
+  install:
+    wipe: false
+    
+cluster:
+  allowSchedulingOnControlPlanes: false
+  
+  network:
+    cni:
+      name: none  # Will be installed via Fleet (Cilium recommended)
+    
+  proxy:
+    disabled: false
+    
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: false
+      service:
+        disabled: false

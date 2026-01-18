@@ -1,0 +1,16 @@
+name: platform
+namespace: fleet-default
+
+# Platform bundle - core platform components
+# Includes CNI, ingress controller, cert-manager, etc.
+
+targetCustomizations:
+- name: core-nodes
+  clusterSelector:
+    matchLabels:
+      cluster: homelab
+  
+  helm:
+    chart: ""
+    repo: ""
+    version: ""

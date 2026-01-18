@@ -1,0 +1,97 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: longhorn-system
+---
+# Longhorn distributed block storage
+# Configured for core nodes only, replicas=2
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  repo: https://charts.longhorn.io
+  chart: longhorn
+  version: 1.5.3
+  targetNamespace: longhorn-system
+  valuesContent: |-
+    defaultSettings:
+      # Replica configuration
+      defaultReplicaCount: 2
+      replicaSoftAntiAffinity: true
+      replicaAutoBalance: best-effort
+      
+      # Storage configuration
+      storageOverProvisioningPercentage: 200
+      storageMinimalAvailablePercentage: 10
+      
+      # Backup configuration (optional)
+      backupTarget: ""
+      backupTargetCredentialSecret: ""
+      
+      # Node selection - core nodes only
+      createDefaultDiskLabeledNodes: true
+      defaultDataPath: /var/lib/longhorn
+      
+      # Performance tuning
+      guaranteedEngineManagerCPU: 12
+      guaranteedReplicaManagerCPU: 12
+      
+    longhornManager:
+      nodeSelector:
+        storage-node: "true"
+      tolerations: []
+      
+    longhornDriver:
+      nodeSelector:
+        storage-node: "true"
+      tolerations: []
+      
+    longhornUI:
+      nodeSelector:
+        topology.kubernetes.io/zone: core
+      replicas: 1
+      
+    # Ensure Longhorn only runs on core nodes with storage-node label
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 2
+      
+    ingress:
+      enabled: false
+---
+# StorageClass for Longhorn with replicas=2
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "30"
+  fromBackup: ""
+  fsType: "ext4"
+  dataLocality: "disabled"
+---
+# StorageClass for critical workloads (higher durability)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn-critical
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "30"
+  fromBackup: ""
+  fsType: "ext4"
+  dataLocality: "best-effort"

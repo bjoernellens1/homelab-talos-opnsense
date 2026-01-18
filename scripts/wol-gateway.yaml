@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wol-gateway
+---
+# WoL Gateway Service
+# Provides HTTP API to wake edge nodes on demand
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wol-gateway-config
+  namespace: wol-gateway
+data:
+  nodes.yaml: |
+    # Edge nodes that can be woken via WoL
+    edge_nodes:
+      - hostname: talos-edge-01
+        ip: 10.0.1.21
+        mac: 00:00:00:00:01:01
+      - hostname: talos-edge-02
+        ip: 10.0.1.22
+        mac: 00:00:00:00:01:02
+      - hostname: talos-edge-03
+        ip: 10.0.1.23
+        mac: 00:00:00:00:01:03
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wol-gateway
+  namespace: wol-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wol-gateway
+  template:
+    metadata:
+      labels:
+        app: wol-gateway
+    spec:
+      nodeSelector:
+        topology.kubernetes.io/zone: core
+      hostNetwork: true  # Required for WoL broadcasts
+      containers:
+      - name: wol-gateway
+        image: ghcr.io/suda/wol-service:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: WOL_BROADCAST
+          value: "10.0.0.255"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+          readOnly: true
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+      - name: config
+        configMap:
+          name: wol-gateway-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wol-gateway
+  namespace: wol-gateway
+spec:
+  selector:
+    app: wol-gateway
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  type: ClusterIP
+---
+# Example: CronJob to wake edge nodes on schedule
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wake-edge-nodes
+  namespace: wol-gateway
+spec:
+  schedule: "0 6 * * 1-5"  # Wake at 6 AM on weekdays
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            topology.kubernetes.io/zone: core
+          restartPolicy: OnFailure
+          containers:
+          - name: wake
+            image: curlimages/curl:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waking edge nodes..."
+              curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-01
+              curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-02
+              curl -X POST http://wol-gateway.wol-gateway:8080/wake/talos-edge-03
