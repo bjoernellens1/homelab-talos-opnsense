@@ -1,0 +1,2647 @@
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"fleet.cattle.io/v1alpha1","kind":"GitRepo","metadata":{"annotations":{},"name":"homelab","namespace":"fleet-local"},"spec":{"branch":"main","paths":["fleet"],"repo":"https://github.com/bjoernellens1/homelab-talos-opnsense","targets":[{"clusterSelector":{"matchLabels":{"cluster":"homelab"}}}]}}
+  creationTimestamp: "2026-01-18T14:53:01Z"
+  finalizers:
+  - fleet.cattle.io/gitrepo-finalizer
+  generation: 4
+  name: homelab
+  namespace: fleet-local
+  resourceVersion: "57257"
+  uid: 9fb39193-67f8-4290-87df-3ff7ecc6304b
+spec:
+  branch: main
+  forceSyncGeneration: 1768760677
+  paths:
+  - fleet
+  repo: https://github.com/bjoernellens1/homelab-talos-opnsense
+  targets:
+  - clusterSelector:
+      matchLabels:
+        cluster: homelab
+status:
+  commit: b5425ca293d4d31ce950ff9ae7b6fc10f0caf65c
+  conditions:
+  - lastUpdateTime: "2026-01-18T18:24:20Z"
+    message: 'NotReady(1) [Cluster fleet-local/local]; daemonset.apps logging/homelab-fleet-ops-loki-promtail
+      [progressing] Available: 2/3; statefulset.apps logging/homelab-fleet-ops-loki
+      [progressing] Ready: 0/1'
+    status: "False"
+    type: Ready
+  - lastUpdateTime: "2026-01-18T18:26:26Z"
+    status: "True"
+    type: GitPolling
+  - lastUpdateTime: "2026-01-18T15:00:11Z"
+    status: "False"
+    type: Reconciling
+  - lastUpdateTime: "2026-01-18T18:25:52Z"
+    message: 'Get "https://github.com/bjoernellens1/homelab-talos-opnsense/info/refs?service=git-upload-pack":
+      context deadline exceeded'
+    reason: Stalled
+    status: "True"
+    type: Stalled
+  - lastUpdateTime: "2026-01-18T14:53:06Z"
+    status: "True"
+    type: Accepted
+  desiredReadyClusters: 1
+  display:
+    readyBundleDeployments: 2/7
+    state: GitUpdating
+  gitJobStatus: Failed
+  lastPollingTriggered: "2026-01-18T18:26:31Z"
+  observedGeneration: 4
+  perClusterResourceCounts:
+    fleet-local/local:
+      desiredReady: 253
+      missing: 0
+      modified: 0
+      notReady: 10
+      orphaned: 0
+      ready: 243
+      unknown: 0
+      waitApplied: 0
+  pollingCommit: b5425ca293d4d31ce950ff9ae7b6fc10f0caf65c
+  readyClusters: 0
+  resourceCounts:
+    desiredReady: 253
+    missing: 0
+    modified: 0
+    notReady: 10
+    orphaned: 0
+    ready: 243
+    unknown: 0
+    waitApplied: 0
+  resources:
+  - apiVersion: admissionregistration.k8s.io/v1
+    id: homelab-fleet-ops-promethe-admission
+    kind: MutatingWebhookConfiguration
+    name: homelab-fleet-ops-promethe-admission
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: admissionregistration.k8s.io.mutatingwebhookconfiguration
+  - apiVersion: admissionregistration.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-webhook
+    kind: MutatingWebhookConfiguration
+    name: homelab-fleet-platform-cert-manager-webhook
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: admissionregistration.k8s.io.mutatingwebhookconfiguration
+  - apiVersion: admissionregistration.k8s.io/v1
+    id: homelab-fleet-ops-promethe-admission
+    kind: ValidatingWebhookConfiguration
+    name: homelab-fleet-ops-promethe-admission
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: admissionregistration.k8s.io.validatingwebhookconfiguration
+  - apiVersion: admissionregistration.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-webhook
+    kind: ValidatingWebhookConfiguration
+    name: homelab-fleet-platform-cert-manager-webhook
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: admissionregistration.k8s.io.validatingwebhookconfiguration
+  - apiVersion: admissionregistration.k8s.io/v1
+    id: homelab-fleet-platform-ingress-nginx-admission
+    kind: ValidatingWebhookConfiguration
+    name: homelab-fleet-platform-ingress-nginx-admission
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: admissionregistration.k8s.io.validatingwebhookconfiguration
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backingimagedatasources.longhorn.io
+    kind: CustomResourceDefinition
+    name: backingimagedatasources.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backingimagemanagers.longhorn.io
+    kind: CustomResourceDefinition
+    name: backingimagemanagers.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backingimages.longhorn.io
+    kind: CustomResourceDefinition
+    name: backingimages.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backups.longhorn.io
+    kind: CustomResourceDefinition
+    name: backups.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backuptargets.longhorn.io
+    kind: CustomResourceDefinition
+    name: backuptargets.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: backupvolumes.longhorn.io
+    kind: CustomResourceDefinition
+    name: backupvolumes.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: certificaterequests.cert-manager.io
+    kind: CustomResourceDefinition
+    name: certificaterequests.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: certificates.cert-manager.io
+    kind: CustomResourceDefinition
+    name: certificates.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: challenges.acme.cert-manager.io
+    kind: CustomResourceDefinition
+    name: challenges.acme.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: clusterissuers.cert-manager.io
+    kind: CustomResourceDefinition
+    name: clusterissuers.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: engineimages.longhorn.io
+    kind: CustomResourceDefinition
+    name: engineimages.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: engines.longhorn.io
+    kind: CustomResourceDefinition
+    name: engines.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: instancemanagers.longhorn.io
+    kind: CustomResourceDefinition
+    name: instancemanagers.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: issuers.cert-manager.io
+    kind: CustomResourceDefinition
+    name: issuers.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: nodes.longhorn.io
+    kind: CustomResourceDefinition
+    name: nodes.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: orders.acme.cert-manager.io
+    kind: CustomResourceDefinition
+    name: orders.acme.cert-manager.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: orphans.longhorn.io
+    kind: CustomResourceDefinition
+    name: orphans.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: recurringjobs.longhorn.io
+    kind: CustomResourceDefinition
+    name: recurringjobs.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: replicas.longhorn.io
+    kind: CustomResourceDefinition
+    name: replicas.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: settings.longhorn.io
+    kind: CustomResourceDefinition
+    name: settings.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: sharemanagers.longhorn.io
+    kind: CustomResourceDefinition
+    name: sharemanagers.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: snapshots.longhorn.io
+    kind: CustomResourceDefinition
+    name: snapshots.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: supportbundles.longhorn.io
+    kind: CustomResourceDefinition
+    name: supportbundles.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: systembackups.longhorn.io
+    kind: CustomResourceDefinition
+    name: systembackups.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: systemrestores.longhorn.io
+    kind: CustomResourceDefinition
+    name: systemrestores.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: volumeattachments.longhorn.io
+    kind: CustomResourceDefinition
+    name: volumeattachments.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apiextensions.k8s.io/v1
+    id: volumes.longhorn.io
+    kind: CustomResourceDefinition
+    name: volumes.longhorn.io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apiextensions.k8s.io.customresourcedefinition
+  - apiVersion: apps/v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx-controller
+    kind: DaemonSet
+    name: homelab-fleet-platform-ingress-nginx-controller
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.daemonset
+  - apiVersion: apps/v1
+    id: kube-system/cilium
+    kind: DaemonSet
+    name: cilium
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.daemonset
+  - apiVersion: apps/v1
+    id: logging/homelab-fleet-ops-loki-promtail
+    kind: DaemonSet
+    name: homelab-fleet-ops-loki-promtail
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.daemonset
+  - apiVersion: apps/v1
+    id: longhorn-system/longhorn-manager
+    kind: DaemonSet
+    name: longhorn-manager
+    namespace: longhorn-system
+    perClusterState: {}
+    state: in-progress
+    type: apps.daemonset
+  - apiVersion: apps/v1
+    id: monitoring/homelab-fleet-ops-prometheus-prometheus-node-exporter
+    kind: DaemonSet
+    name: homelab-fleet-ops-prometheus-prometheus-node-exporter
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.daemonset
+  - apiVersion: apps/v1
+    id: cert-manager/homelab-fleet-platform-cert-manager
+    kind: Deployment
+    name: homelab-fleet-platform-cert-manager
+    namespace: cert-manager
+    perClusterState:
+      notReady:
+      - fleet-local/local
+    state: error
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-cainjector
+    kind: Deployment
+    name: homelab-fleet-platform-cert-manager-cainjector
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook
+    kind: Deployment
+    name: homelab-fleet-platform-cert-manager-webhook
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: kube-system/cilium-operator
+    kind: Deployment
+    name: cilium-operator
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: kube-system/hubble-relay
+    kind: Deployment
+    name: hubble-relay
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: kube-system/hubble-ui
+    kind: Deployment
+    name: hubble-ui
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: longhorn-system/longhorn-driver-deployer
+    kind: Deployment
+    name: longhorn-driver-deployer
+    namespace: longhorn-system
+    perClusterState:
+      notReady:
+      - fleet-local/local
+    state: error
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: longhorn-system/longhorn-ui
+    kind: Deployment
+    name: longhorn-ui
+    namespace: longhorn-system
+    perClusterState:
+      notReady:
+      - fleet-local/local
+    state: error
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: monitoring/homelab-fleet-ops-promethe-operator
+    kind: Deployment
+    name: homelab-fleet-ops-promethe-operator
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: Deployment
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      notReady:
+      - fleet-local/local
+    state: error
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: monitoring/homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: Deployment
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: apps.deployment
+  - apiVersion: apps/v1
+    id: logging/homelab-fleet-ops-loki
+    kind: StatefulSet
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState: {}
+    state: in-progress
+    type: apps.statefulset
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager
+    kind: ConfigMap
+    name: homelab-fleet-platform-cert-manager
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook
+    kind: ConfigMap
+    name: homelab-fleet-platform-cert-manager-webhook
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx-controller
+    kind: ConfigMap
+    name: homelab-fleet-platform-ingress-nginx-controller
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: kube-system/cilium-config
+    kind: ConfigMap
+    name: cilium-config
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: kube-system/hubble-relay-config
+    kind: ConfigMap
+    name: hubble-relay-config
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: kube-system/hubble-ui-nginx
+    kind: ConfigMap
+    name: hubble-ui-nginx
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-loki-stack
+    kind: ConfigMap
+    name: homelab-fleet-ops-loki-loki-stack
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-loki-stack-test
+    kind: ConfigMap
+    name: homelab-fleet-ops-loki-loki-stack-test
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: longhorn-system/longhorn-default-setting
+    kind: ConfigMap
+    name: longhorn-default-setting
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: longhorn-system/longhorn-storageclass
+    kind: ConfigMap
+    name: longhorn-storageclass
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager-overview
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-alertmanager-overview
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-apiserver
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-apiserver
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-cluster-total
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-cluster-total
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-controller-manager
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-controller-manager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-etcd
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-etcd
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-grafana-datasource
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-grafana-datasource
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-grafana-overview
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-grafana-overview
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-coredns
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-coredns
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-cluster
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-cluster
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-multicluster
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-multicluster
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-namespace
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-namespace
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-node
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-node
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-pod
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-pod
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-workload
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-workload
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s-resources-workloads-namespace
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-k8s-resources-workloads-namespace
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-kubelet
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-kubelet
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-namespace-by-pod
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-namespace-by-pod
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-namespace-by-workload
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-namespace-by-workload
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-node-cluster-rsrc-use
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-node-cluster-rsrc-use
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-node-rsrc-use
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-node-rsrc-use
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-nodes
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-nodes
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-nodes-darwin
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-nodes-darwin
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-persistentvolumesusage
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-persistentvolumesusage
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-pod-total
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-pod-total
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-proxy
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-proxy
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-scheduler
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-scheduler
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-workload-total
+    kind: ConfigMap
+    name: homelab-fleet-ops-promethe-workload-total
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: ConfigMap
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana-config-dashboards
+    kind: ConfigMap
+    name: homelab-fleet-ops-prometheus-grafana-config-dashboards
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: configmap
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager
+    kind: Alertmanager
+    name: homelab-fleet-ops-promethe-alertmanager
+    namespace: monitoring
+    perClusterState: {}
+    state: reconciling
+    type: monitoring.coreos.com.alertmanager
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: Prometheus
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState: {}
+    state: reconciling
+    type: monitoring.coreos.com.prometheus
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-alertmanager.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-config-reloaders
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-config-reloaders
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-etcd
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-etcd
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-general.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-general.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-cpu-usage-second
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-cpu-usage-second
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-memory-cache
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-memory-cache
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-memory-rss
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-memory-rss
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-memory-swap
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-memory-swap
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-memory-working-s
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-memory-working-s
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.container-resource
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.container-resource
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-k8s.rules.pod-owner
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-k8s.rules.pod-owner
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-apiserver-availability.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-apiserver-availability.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-apiserver-burnrate.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-apiserver-burnrate.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-apiserver-histogram.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-apiserver-histogram.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-apiserver-slos
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-apiserver-slos
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-prometheus-general.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-prometheus-general.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-prometheus-node-recording.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-prometheus-node-recording.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-scheduler.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-scheduler.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-state-metrics
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kube-state-metrics
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubelet.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubelet.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-apps
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-apps
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-resources
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-resources
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-storage
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-storage
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system-apiserver
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system-apiserver
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system-controller-manager
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system-controller-manager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system-kube-proxy
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system-kube-proxy
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system-kubelet
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system-kubelet
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubernetes-system-scheduler
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-kubernetes-system-scheduler
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-node-exporter
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-node-exporter
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-node-exporter.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-node-exporter.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-node-network
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-node-network
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-node.rules
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-node.rules
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus-operator
+    kind: PrometheusRule
+    name: homelab-fleet-ops-promethe-prometheus-operator
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.prometheusrule
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-alertmanager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-apiserver
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-apiserver
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-coredns
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-coredns
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-controller-manager
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-kube-controller-manager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-etcd
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-kube-etcd
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-proxy
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-kube-proxy
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kube-scheduler
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-kube-scheduler
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-kubelet
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-kubelet
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-operator
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-operator
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: monitoring.coreos.com/v1
+    id: monitoring/homelab-fleet-ops-prometheus-prometheus-node-exporter
+    kind: ServiceMonitor
+    name: homelab-fleet-ops-prometheus-prometheus-node-exporter
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: monitoring.coreos.com.servicemonitor
+  - apiVersion: networking.k8s.io/v1
+    id: nginx
+    kind: IngressClass
+    name: nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: networking.k8s.io.ingressclass
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: PersistentVolumeClaim
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState: {}
+    state: pending
+    type: persistentvolumeclaim
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cilium
+    kind: ClusterRole
+    name: cilium
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cilium-operator
+    kind: ClusterRole
+    name: cilium-operator
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-loki-promtail
+    kind: ClusterRole
+    name: homelab-fleet-ops-loki-promtail
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-promethe-operator
+    kind: ClusterRole
+    name: homelab-fleet-ops-promethe-operator
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-promethe-prometheus
+    kind: ClusterRole
+    name: homelab-fleet-ops-promethe-prometheus
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-prometheus-grafana-clusterrole
+    kind: ClusterRole
+    name: homelab-fleet-ops-prometheus-grafana-clusterrole
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: ClusterRole
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-cainjector
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-cainjector
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-cluster-view
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-cluster-view
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-approve:cert-manager-io
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-approve:cert-manager-io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-certificates
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-certificates
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-certificatesigningrequests
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-certificatesigningrequests
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-challenges
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-challenges
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-clusterissuers
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-clusterissuers
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-ingress-shim
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-ingress-shim
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-issuers
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-issuers
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-orders
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-controller-orders
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-edit
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-edit
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-view
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-view
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-webhook:subjectaccessreviews
+    kind: ClusterRole
+    name: homelab-fleet-platform-cert-manager-webhook:subjectaccessreviews
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-ingress-nginx
+    kind: ClusterRole
+    name: homelab-fleet-platform-ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: hubble-ui
+    kind: ClusterRole
+    name: hubble-ui
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: longhorn-role
+    kind: ClusterRole
+    name: longhorn-role
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrole
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cilium
+    kind: ClusterRoleBinding
+    name: cilium
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cilium-operator
+    kind: ClusterRoleBinding
+    name: cilium-operator
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-loki-promtail
+    kind: ClusterRoleBinding
+    name: homelab-fleet-ops-loki-promtail
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-promethe-operator
+    kind: ClusterRoleBinding
+    name: homelab-fleet-ops-promethe-operator
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-promethe-prometheus
+    kind: ClusterRoleBinding
+    name: homelab-fleet-ops-promethe-prometheus
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-prometheus-grafana-clusterrolebinding
+    kind: ClusterRoleBinding
+    name: homelab-fleet-ops-prometheus-grafana-clusterrolebinding
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: ClusterRoleBinding
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-cainjector
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-cainjector
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-approve:cert-manager-io
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-approve:cert-manager-io
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-certificates
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-certificates
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-certificatesigningrequests
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-certificatesigningrequests
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-challenges
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-challenges
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-clusterissuers
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-clusterissuers
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-ingress-shim
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-ingress-shim
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-issuers
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-issuers
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-controller-orders
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-controller-orders
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-cert-manager-webhook:subjectaccessreviews
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-cert-manager-webhook:subjectaccessreviews
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: homelab-fleet-platform-ingress-nginx
+    kind: ClusterRoleBinding
+    name: homelab-fleet-platform-ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: hubble-ui
+    kind: ClusterRoleBinding
+    name: hubble-ui
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: longhorn-bind
+    kind: ClusterRoleBinding
+    name: longhorn-bind
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: longhorn-support-bundle
+    kind: ClusterRoleBinding
+    name: longhorn-support-bundle
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.clusterrolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook:dynamic-serving
+    kind: Role
+    name: homelab-fleet-platform-cert-manager-webhook:dynamic-serving
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx
+    kind: Role
+    name: homelab-fleet-platform-ingress-nginx
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/cilium-config-agent
+    kind: Role
+    name: cilium-config-agent
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/homelab-fleet-platform-cert-manager-cainjector:leaderelection
+    kind: Role
+    name: homelab-fleet-platform-cert-manager-cainjector:leaderelection
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/homelab-fleet-platform-cert-manager:leaderelection
+    kind: Role
+    name: homelab-fleet-platform-cert-manager:leaderelection
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: logging/homelab-fleet-ops-loki
+    kind: Role
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: Role
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.role
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook:dynamic-serving
+    kind: RoleBinding
+    name: homelab-fleet-platform-cert-manager-webhook:dynamic-serving
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx
+    kind: RoleBinding
+    name: homelab-fleet-platform-ingress-nginx
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/cilium-config-agent
+    kind: RoleBinding
+    name: cilium-config-agent
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/homelab-fleet-platform-cert-manager-cainjector:leaderelection
+    kind: RoleBinding
+    name: homelab-fleet-platform-cert-manager-cainjector:leaderelection
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: kube-system/homelab-fleet-platform-cert-manager:leaderelection
+    kind: RoleBinding
+    name: homelab-fleet-platform-cert-manager:leaderelection
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: logging/homelab-fleet-ops-loki
+    kind: RoleBinding
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: RoleBinding
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: rbac.authorization.k8s.io.rolebinding
+  - apiVersion: v1
+    id: kube-system/cilium-ca
+    kind: Secret
+    name: cilium-ca
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: kube-system/hubble-relay-client-certs
+    kind: Secret
+    name: hubble-relay-client-certs
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: kube-system/hubble-server-certs
+    kind: Secret
+    name: hubble-server-certs
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki
+    kind: Secret
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-promtail
+    kind: Secret
+    name: homelab-fleet-ops-loki-promtail
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: monitoring/alertmanager-homelab-fleet-ops-promethe-alertmanager
+    kind: Secret
+    name: alertmanager-homelab-fleet-ops-promethe-alertmanager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: Secret
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: Secret
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: secret
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager
+    kind: Service
+    name: homelab-fleet-platform-cert-manager
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook
+    kind: Service
+    name: homelab-fleet-platform-cert-manager-webhook
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx-controller
+    kind: Service
+    name: homelab-fleet-platform-ingress-nginx-controller
+    namespace: ingress-nginx
+    perClusterState: {}
+    state: pending
+    type: service
+  - apiVersion: v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx-controller-admission
+    kind: Service
+    name: homelab-fleet-platform-ingress-nginx-controller-admission
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/homelab-fleet-ops-promethe-coredns
+    kind: Service
+    name: homelab-fleet-ops-promethe-coredns
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/homelab-fleet-ops-promethe-kube-controller-manager
+    kind: Service
+    name: homelab-fleet-ops-promethe-kube-controller-manager
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/homelab-fleet-ops-promethe-kube-etcd
+    kind: Service
+    name: homelab-fleet-ops-promethe-kube-etcd
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/homelab-fleet-ops-promethe-kube-proxy
+    kind: Service
+    name: homelab-fleet-ops-promethe-kube-proxy
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/homelab-fleet-ops-promethe-kube-scheduler
+    kind: Service
+    name: homelab-fleet-ops-promethe-kube-scheduler
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/hubble-peer
+    kind: Service
+    name: hubble-peer
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/hubble-relay
+    kind: Service
+    name: hubble-relay
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: kube-system/hubble-ui
+    kind: Service
+    name: hubble-ui
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki
+    kind: Service
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-headless
+    kind: Service
+    name: homelab-fleet-ops-loki-headless
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-memberlist
+    kind: Service
+    name: homelab-fleet-ops-loki-memberlist
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-admission-webhook
+    kind: Service
+    name: longhorn-admission-webhook
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-backend
+    kind: Service
+    name: longhorn-backend
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-conversion-webhook
+    kind: Service
+    name: longhorn-conversion-webhook
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-engine-manager
+    kind: Service
+    name: longhorn-engine-manager
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-frontend
+    kind: Service
+    name: longhorn-frontend
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-recovery-backend
+    kind: Service
+    name: longhorn-recovery-backend
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: longhorn-system/longhorn-replica-manager
+    kind: Service
+    name: longhorn-replica-manager
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager
+    kind: Service
+    name: homelab-fleet-ops-promethe-alertmanager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-operator
+    kind: Service
+    name: homelab-fleet-ops-promethe-operator
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: Service
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: Service
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: Service
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-prometheus-node-exporter
+    kind: Service
+    name: homelab-fleet-ops-prometheus-prometheus-node-exporter
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: service
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager
+    kind: ServiceAccount
+    name: homelab-fleet-platform-cert-manager
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-cainjector
+    kind: ServiceAccount
+    name: homelab-fleet-platform-cert-manager-cainjector
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: cert-manager/homelab-fleet-platform-cert-manager-webhook
+    kind: ServiceAccount
+    name: homelab-fleet-platform-cert-manager-webhook
+    namespace: cert-manager
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: ingress-nginx/homelab-fleet-platform-ingress-nginx
+    kind: ServiceAccount
+    name: homelab-fleet-platform-ingress-nginx
+    namespace: ingress-nginx
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: kube-system/cilium
+    kind: ServiceAccount
+    name: cilium
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: kube-system/cilium-operator
+    kind: ServiceAccount
+    name: cilium-operator
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: kube-system/hubble-relay
+    kind: ServiceAccount
+    name: hubble-relay
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: kube-system/hubble-ui
+    kind: ServiceAccount
+    name: hubble-ui
+    namespace: kube-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki
+    kind: ServiceAccount
+    name: homelab-fleet-ops-loki
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: logging/homelab-fleet-ops-loki-promtail
+    kind: ServiceAccount
+    name: homelab-fleet-ops-loki-promtail
+    namespace: logging
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: longhorn-system/longhorn-service-account
+    kind: ServiceAccount
+    name: longhorn-service-account
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: longhorn-system/longhorn-support-bundle
+    kind: ServiceAccount
+    name: longhorn-support-bundle
+    namespace: longhorn-system
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-alertmanager
+    kind: ServiceAccount
+    name: homelab-fleet-ops-promethe-alertmanager
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-operator
+    kind: ServiceAccount
+    name: homelab-fleet-ops-promethe-operator
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-promethe-prometheus
+    kind: ServiceAccount
+    name: homelab-fleet-ops-promethe-prometheus
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-grafana
+    kind: ServiceAccount
+    name: homelab-fleet-ops-prometheus-grafana
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-kube-state-metrics
+    kind: ServiceAccount
+    name: homelab-fleet-ops-prometheus-kube-state-metrics
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  - apiVersion: v1
+    id: monitoring/homelab-fleet-ops-prometheus-prometheus-node-exporter
+    kind: ServiceAccount
+    name: homelab-fleet-ops-prometheus-prometheus-node-exporter
+    namespace: monitoring
+    perClusterState:
+      ready:
+      - fleet-local/local
+    state: Ready
+    type: serviceaccount
+  summary:
+    desiredReady: 7
+    nonReadyResources:
+    - bundleState: NotReady
+      name: homelab-fleet-storage
+      nonReadyStatus:
+      - apiVersion: apps/v1
+        kind: DaemonSet
+        name: longhorn-manager
+        namespace: longhorn-system
+        summary:
+          message:
+          - 'Available: 0/3'
+          state: in-progress
+          transitioning: true
+        uid: 9f6d62cc-9872-4081-b4bd-b04361716a95
+      - apiVersion: apps/v1
+        kind: Deployment
+        name: longhorn-driver-deployer
+        namespace: longhorn-system
+        summary:
+          error: true
+          message:
+          - ReplicaSet "longhorn-driver-deployer-5cf964968c" has timed out progressing.
+          - Progress deadline exceeded
+          state: error
+        uid: b1511332-558c-4ab2-8002-99d6b31117cc
+      - apiVersion: apps/v1
+        kind: Deployment
+        name: longhorn-ui
+        namespace: longhorn-system
+        summary:
+          error: true
+          message:
+          - ReplicaSet "longhorn-ui-66c4d745bc" has timed out progressing.
+          - Progress deadline exceeded
+          state: error
+        uid: e34b942d-cc29-47a5-acb0-8d33870fad89
+    - bundleState: NotReady
+      name: homelab-fleet-platform-cert-manager
+      nonReadyStatus:
+      - apiVersion: apps/v1
+        kind: Deployment
+        name: homelab-fleet-platform-cert-manager
+        namespace: cert-manager
+        summary:
+          error: true
+          message:
+          - ReplicaSet "homelab-fleet-platform-cert-manager-7f6d9f85f8" has timed
+            out progressing.
+          - Progress deadline exceeded
+          state: error
+        uid: 73c97cae-7944-4fd6-a0fd-a98f993e3693
+    - bundleState: NotReady
+      name: homelab-fleet-ops-prometheus
+      nonReadyStatus:
+      - apiVersion: monitoring.coreos.com/v1
+        kind: Prometheus
+        name: homelab-fleet-ops-promethe-prometheus
+        namespace: monitoring
+        summary:
+          error: true
+          message:
+          - storage class "longhorn" does not exist
+          - Resource is current
+          state: reconciling
+        uid: 38d2bd11-4a6e-46ee-88c0-b0dc04bfe9ef
+      - apiVersion: apps/v1
+        kind: Deployment
+        name: homelab-fleet-ops-prometheus-grafana
+        namespace: monitoring
+        summary:
+          error: true
+          message:
+          - ReplicaSet "homelab-fleet-ops-prometheus-grafana-6b9d58f468" has timed
+            out progressing.
+          - Progress deadline exceeded
+          state: error
+        uid: 48f38137-d0c7-4565-9e7c-7117d3da67f8
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        name: homelab-fleet-ops-prometheus-grafana
+        namespace: monitoring
+        summary:
+          message:
+          - 'PVC is not Bound. phase: Pending'
+          state: pending
+          transitioning: true
+        uid: f0f369d6-34bd-42b0-aac2-c43cf4d1c0f3
+      - apiVersion: monitoring.coreos.com/v1
+        kind: Alertmanager
+        name: homelab-fleet-ops-promethe-alertmanager
+        namespace: monitoring
+        summary:
+          error: true
+          message:
+          - storage class "longhorn" does not exist
+          - Resource is current
+          state: reconciling
+        uid: f31eba4b-b845-40e2-ad2d-1685b39584f4
+    - bundleState: NotReady
+      name: homelab-fleet-platform-ingress-nginx
+      nonReadyStatus:
+      - apiVersion: v1
+        kind: Service
+        name: homelab-fleet-platform-ingress-nginx-controller
+        namespace: ingress-nginx
+        summary:
+          message:
+          - Service is ready
+          - Load balancer is being provisioned
+          state: pending
+          transitioning: true
+        uid: 893122fc-2eb5-46da-b6d4-74ef433c919f
+    - bundleState: NotReady
+      name: homelab-fleet-ops-loki
+      nonReadyStatus:
+      - apiVersion: apps/v1
+        kind: StatefulSet
+        name: homelab-fleet-ops-loki
+        namespace: logging
+        summary:
+          message:
+          - 'Ready: 0/1'
+          state: in-progress
+          transitioning: true
+        uid: 4d86d106-fb10-42cd-8403-db59e95c0796
+    notReady: 5
+    ready: 2
