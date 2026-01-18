@@ -14,6 +14,13 @@ machine:
       - image: ghcr.io/siderolabs/nvme-cli:v2.8.1
       - image: ghcr.io/siderolabs/realtek-firmware:20240910
       - image: ghcr.io/siderolabs/util-linux-tools:v2.39.3
+    extraKernelArgs:
+      - i915.enable_guc=3
+      - i915.enable_fbc=1
+
+  nodeLabels:
+    node-role: edge
+    availability: intermittent
 
   kubelet:
     extraArgs:
@@ -22,9 +29,6 @@ machine:
     nodeIP:
       validSubnets:
         - 10.10.0.0/24  # Cluster network
-    nodeLabels:
-        node-role: edge
-        availability: intermittent
 
   network:
     nameservers:
@@ -39,10 +43,7 @@ machine:
     vm.max_map_count: "262144"
     fs.inotify.max_user_watches: "524288"
 
-  kernel:
-    args:
-      - i915.enable_guc=3
-      - i915.enable_fbc=1
+  # machine.kernel is now handled via machine.install.extraKernelArgs or machine.kernel.modules
 
 cluster:
   network:

@@ -7,25 +7,19 @@ cluster:
   endpoint: https://10.10.0.10:6443  # VIP for control plane
   domain: cluster.local
 
-# Storage Network (2.5GbE)
-storage_network:
-  subnet: 10.10.1.0/24
-
 # Core nodes - always-on, host control plane and critical workloads
 # Hardware: 3x Fujitsu Esprimo (64GB RAM, i5-7400T)
-# Networking: eth0 (1G), eth1 (2.5G USB)
+# Networking: eth0 (2.5G USB Realtek)
 core_nodes:
   - hostname: talos-core-01
     ip: 10.10.0.11
-    storage_ip: 10.10.1.11
     role: controlplane
-    mac: 00:00:00:00:00:01
+    mac: 00:e0:4c:68:13:1f # 2.5G USB Realtek
     specs:
       cpu: 4
       memory: 65536
-      disk: /dev/nvme0n1
+      disk: /dev/sda
       data_disks:
-        - /dev/sda
         - /dev/sdb
     labels:
       node-role.kubernetes.io/control-plane: ""
@@ -36,9 +30,8 @@ core_nodes:
 
   - hostname: talos-core-02
     ip: 10.10.0.12
-    storage_ip: 10.10.1.12
     role: controlplane
-    mac: 00:00:00:00:00:02
+    mac: 00:e0:4c:68:13:4b # 2.5G USB Realtek
     specs:
       cpu: 4
       memory: 65536
@@ -55,9 +48,8 @@ core_nodes:
 
   - hostname: talos-core-03
     ip: 10.10.0.13
-    storage_ip: 10.10.1.13
     role: controlplane
-    mac: 00:00:00:00:00:03
+    mac: 00:e0:4c:68:0a:78 # 2.5G USB Realtek
     specs:
       cpu: 4
       memory: 65536
@@ -78,7 +70,6 @@ core_nodes:
 edge_nodes:
   - hostname: talos-edge-01
     ip: 10.10.0.21
-    storage_ip: 10.10.1.21
     role: worker
     mac: 00:00:00:00:01:01
     specs:

@@ -5,15 +5,13 @@
 
 machine:
   install:
-    disk: /dev/nvme0n1 # 250GB NVMe OS Disk
-    extensions:
-      - image: ghcr.io/siderolabs/i915:v0.1.0
-      - image: ghcr.io/siderolabs/intel-ice-firmware:20240910
-      - image: ghcr.io/siderolabs/intel-ucode:20240910
-      - image: ghcr.io/siderolabs/iscsi-tools:v0.1.4
-      - image: ghcr.io/siderolabs/nvme-cli:v2.8.1
-      - image: ghcr.io/siderolabs/realtek-firmware:20240910
-      - image: ghcr.io/siderolabs/util-linux-tools:v2.39.3
+    disk: /dev/sda # 500GB SSD
+    image: ghcr.io/siderolabs/installer:v1.11.5
+
+  nodeLabels:
+    node-role: core
+    availability: always-on
+    storage: longhorn
 
   kubelet:
     extraArgs:
@@ -21,11 +19,6 @@ machine:
     nodeIP:
       validSubnets:
         - 10.10.0.0/24  # Management network
-        - 10.10.1.0/24  # Storage network
-    nodeLabels:
-      node-role: core
-      availability: always-on
-      storage: longhorn
     extraMounts:
       - destination: /var/lib/longhorn
         type: bind
@@ -48,11 +41,6 @@ machine:
     vm.max_map_count: "262144"
     fs.inotify.max_user_watches: "524288"
     fs.inotify.max_user_instances: "512"
-
-  kernel:
-    args:
-      - i915.enable_guc=3
-      - i915.enable_fbc=1
 
 cluster:
   allowSchedulingOnControlPlanes: true

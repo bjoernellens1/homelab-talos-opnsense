@@ -33,37 +33,41 @@ else:
 def generate_config(node, output_type):
     hostname = node['hostname']
     ip = node['ip']
-    storage_ip = node.get('storage_ip')
     role = node['role']
-    
     # Determine patch file
     patch_file = "core.yaml" if "core" in hostname else "edge.yaml"
     patch_path = os.path.join(PATCHES_DIR, patch_file)
-    
+
     # Generate node-specific network patch
+    # Use one network for everything. Realtek 2.5G is the priority.
     node_patch = {
         "machine": {
+            "install": {
+                "disk": node['specs']['disk']
+            },
             "network": {
                 "hostname": hostname,
                 "interfaces": [
                     {
-                        "interface": "eth0",
-                        "addresses": [f"{ip}/24"]
+                        "addresses": [f"{ip}/24"],
+                        "routes": [
+                            {
+                                "network": "0.0.0.0/0",
+                                "gateway": inventory['network']['gateway']
+                            }
+                        ],
+                        "deviceSelector": {
+                            "driver": "r8152" if "core" in hostname else "*"
+                        }
                     }
-                ]
+                ],
+                "nameservers": inventory['network']['nameservers']
             }
         }
     }
     
-    # Add storage interface if available
-    if storage_ip:
-        node_patch["machine"]["network"]["interfaces"].append({
-            "interface": "eth1",
-            "addresses": [f"{storage_ip}/24"]
-        })
-    
-    # Add VIP for control plane
-    if role == "controlplane" and hostname == "talos-core-01": # Simple logic for VIP anchor
+    # Add VIP for control plane on the main interface
+    if role == "controlplane" and hostname == "talos-core-01":
          node_patch["machine"]["network"]["interfaces"][0]["vip"] = {
              "ip": "10.10.0.10"
          }
@@ -81,7 +85,8 @@ def generate_config(node, output_type):
         "--config-patch", f"@{patch_path}",
         "--config-patch", f"@{node_patch_path}",
         "--output", output_file,
-        "--output-types", role if role == "controlplane" else "worker"
+        "--output-types", role if role == "controlplane" else "worker",
+        "-f"
     ]
     
     if role == "controlplane":
@@ -107,7 +112,8 @@ subprocess.run([
     "talosctl", "gen", "config", cluster_name, cluster_endpoint,
     "--with-secrets", secrets_path,
     "--output-types", "talosconfig",
-    "--output", os.path.join(OUTPUT_DIR, "talosconfig")
+    "--output", os.path.join(OUTPUT_DIR, "talosconfig"),
+    "-f"
 ], check=True)
 
-print("\nDone! Storage network configured on eth1 (2.5GbE).")
+print("\nDone! All nodes configured with single 2.5G/Main network.")
